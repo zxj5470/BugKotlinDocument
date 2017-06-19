@@ -1,0 +1,36 @@
+<idea-plugin>
+  <id>cn.wjdghd.unique.plugin.id</id>
+  <name>BugKotlinDocument</name>
+  <version>0.1</version>
+  <vendor email="zxj5470@foxmail.com" url="http://www.wjdghd.cn">zxj5470</vendor>
+
+  <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="145.0"/>
+
+
+  <extensions defaultExtensionNs="com.intellij">
+  </extensions>
+
+  <actions>
+    <action id="zxj5470" class="cn.wjdghd.Main" text="BugKotlinDocument">
+      <add-to-group group-id="RefactoringMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="alt N"/>
+    </action>
+  </actions>
+
+  <application-components>
+    <component>
+      <implementation-class>cn.wjdghd.My</implementation-class>
+    </component>
+  </application-components>
+</idea-plugin>
