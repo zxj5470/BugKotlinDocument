@@ -3,16 +3,19 @@ package cn.wjdghd
 import com.intellij.util.containers.Stack
 import java.util.*
 
+//constants
 val NEXT_LINE = "\n"
 val PARAM = "@param "
-val LINE_INNER = "* "
-val LINE_END = "*/"
+val DOC_INNER = " * "
+val LINE_SPLIT_COLON = " : "
+val DOC_END = " */"
 
 fun String.countSpaceNum(tabSpaceNum: Int = 4): Int {
     var count = 0
     for (i in this.indices) {
         if (this[i] == ' ') count++
         else if (this[i] == '\t') count += tabSpaceNum
+        else break
     }
     return count
 }
@@ -31,7 +34,8 @@ fun String.splitForParams(): LinkedList<String> {
     val split = LinkedList<String>()
     var index: Int = 0
     var top: Char
-    this.indices.forEach {
+
+    loop@ for (it in this.indices) {
         top = if (charStack.empty()) '-' else charStack.peek()
         when (this[it]) {
             '\'' -> {
@@ -43,20 +47,26 @@ fun String.splitForParams(): LinkedList<String> {
                 else charStack.pop()
             }
             '(', '{', '<' -> charStack.push(this[it])
-            ')' -> if (top == '(') charStack.pop()
+            ')' -> {
+                if (top == '(') {
+                    charStack.pop()
+                    if (charStack.empty()) break@loop
+                }
+            }
             '}' -> if (top == '{') charStack.pop()
             '>' -> if (top == '<') charStack.pop()
             ',' -> {
-                if (top != '<') {
+                if (top != '<' && top != '{') {
                     split.addLast(this.substring(index, it).replace(" ", "").replace(":", " "))
                     index = it + 1
                 }
             }
         }
     }
-
-
-    split.addLast(this.substring(index).replace(" ", "").replace(":", " "))
-
+    split.addLast(this.substring(index).replace(" ", "").replace("::", " ").replace(":", " "))
     return split
+}
+
+fun String.ifBeginWith(beginString:String):Boolean{
+    return this.indexOf(beginString)==0
 }
