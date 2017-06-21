@@ -1,8 +1,5 @@
 package cn.wjdghd
 
-import com.intellij.util.containers.Stack
-
-val charStack = Stack<Char>()
 
 fun main(args: Array<String>) {
     val whole = """package cn.wjdghd
@@ -26,7 +23,7 @@ import javax.servlet.http.*
     val m = My()
 
     println("old_______\n$whole")
-    println("new__________\n")
+    println("new_______\n")
     println(whole.replace(realNext,m.stringFactory(thisLine,nextLine,realNext)))
 
 }

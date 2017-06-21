@@ -7,7 +7,7 @@
     <description>To generate document in Kotlin File</description>
 
     <change-notes>
-        //Too young version: v0.1 (Only `@param`s are available)&#10;
+        //Too young version: v0.1 (Only `@param`s are available)&#x000A;
         A simple version :v0.1.1 (solve mul-match `/**` problem) and reduce the whole package so it's small enough now (the fact is that I forgot to remove the Gradle so that the first version remains 16MB.)
     </change-notes>
 

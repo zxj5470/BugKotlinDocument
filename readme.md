@@ -3,8 +3,11 @@ use in Kotlin file to generate document.
 
 it still remains a lot of bug and most of them are not completed
 
-example:
+##### v0.1.1 A simple version:
+- remove the Gradle so reduce from 16MB to 13KB 
+- solve Repeated matching problem and maybe it still remains :joy:
 
+### example:
 #### 1.type the CharSequence "/**"
 ```kotlin
 package cn.wjdghd
