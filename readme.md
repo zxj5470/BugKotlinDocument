@@ -1,7 +1,9 @@
 # Plugin for IntelliJ IDEA in Kotlin File
 use in Kotlin file to generate document.
 
-it still remains a lot of bug and most of them are not completed
+it still remains a lot of bug and most of them are not completed.
+
+[BugKotlinDocument issues in Shimo](https://shimo.im/doc/Hgztf6VnEG4eo9vJ)
 
 ##### v0.1.1 A simple version:
 - remove the Gradle so reduce from 16MB to 13KB 
