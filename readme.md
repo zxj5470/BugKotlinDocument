@@ -1,15 +1,20 @@
 # Plugin for IntelliJ IDEA in Kotlin File
-use in Kotlin file to generate document.
 
-it still remains a lot of bug and most of them are not completed.
+- Write with Kotlin.
+- Use in Kotlin.
+- Generate notation in Kotlin file.
+- It still remains lots of bugs and most of works are not completed and finished...Keep fighting.
 
-[BugKotlinDocument issues in Shimo](https://shimo.im/doc/Hgztf6VnEG4eo9vJ)
+[BugKotlinDocument issues in GitHub](https://github.com/zxj5470/BugKotlinDocument/issues)
 
-##### v0.1.1 A simple version:
+[BugKotlinDocument issues in Shimo Document](https://shimo.im/doc/Hgztf6VnEG4eo9vJ)
+## v0.1.1 A simple version:
 - remove the Gradle so reduce from 16MB to 13KB 
 - solve Repeated matching problem and maybe it still remains :joy:
-[Problems](#Problems)
-### example:
+
+[Problems Here](#Problems)
+
+# Examples:
 #### 1.type the CharSequence "/**"
 ```kotlin
 package cn.wjdghd
@@ -32,17 +37,12 @@ import javax.servlet.http.*
         super.doPost(req, resp)
     }
 ```
-
 # <a name="Problems"></a>Problems
-
 ```kotlin
-/**
+/** can't generate it.
 fun String.ifBeginWith(beginString:String)=this.indexOf(beginString)==0
 
-
-
- */
- /** Should it be OK ?
+*//** Should it be OK ?
   * @param tabSpaceNum Int=4 : 
   * 
   * ~~~~I want ->
@@ -70,3 +70,5 @@ That's too naïve.It's a Canary.
 Maybe I'll go further.Who cares?
 
 Heh~
+
+Interesting~
