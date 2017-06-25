@@ -25,6 +25,14 @@ import javax.servlet.http.*
     println("old_______\n$whole")
     println("new_______\n")
     println(whole.replace(realNext,m.stringFactory(thisLine,nextLine,realNext)))
-
+    /** Should it be OK ?
+    * @param tabSpaceNum Int=4 :
+    * @param tabSpaceNum Int : (default is 4 )
+    * @return Int :
+    */
+    fun String.countSpaceNum(tabSpaceNum: Int = 4): Int{
+        val a=1
+        return a
+    }
 }
 

@@ -9,22 +9,24 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.util.containers.Stack
-import java.awt.Robot
-import java.awt.event.KeyEvent
 
 class My : ApplicationComponent {
     lateinit var editor: Editor
     lateinit var document: Document
-    lateinit var globalText: String
 
     override fun initComponent() {}
 
     override fun disposeComponent() {}
-
+    /**
+     * @param  : 
+     */
     override fun getComponentName(): String {
         return "BugKotlinDocument"
     }
 
+    /**
+     * @param event AnActionEvent : 
+     */
     fun todo(event: AnActionEvent) {
         //get this editor
         editor = event.getData(PlatformDataKeys.EDITOR) ?: return
@@ -43,6 +45,7 @@ class My : ApplicationComponent {
 //            println("thisLine:----------\n$thisLine")
 //            println("realNext:----------\n$realNext")
 //            println("realNextLine:----------\n$realNextLine")
+
             //replace the first line /** to ` /** with @param `
             //via matching @realNext which is the whole function block.
 
@@ -56,6 +59,16 @@ class My : ApplicationComponent {
                 }
             }
         }
+    }
+
+    /**
+     * @param thisLine String : 
+     * @param realNextLine String : 
+     * @param realNext String : 
+     * @param r String : 
+     */
+    fun stringFactory(thisLine: String, realNextLine: String, realNext: String,r: String){
+
     }
 
     fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {

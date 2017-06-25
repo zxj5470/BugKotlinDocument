@@ -10,6 +10,9 @@ val DOC_INNER = " * "
 val LINE_SPLIT_COLON = " : "
 val DOC_END = " */"
 
+ /**
+  * @param tabSpaceNum Int=4 : 
+  */
 fun String.countSpaceNum(tabSpaceNum: Int = 4): Int {
     var count = 0
     for (i in this.indices) {
@@ -28,6 +31,7 @@ fun String.beginSpaces(): String {
     }
     return sb.toString()
 }
+
 
 fun String.splitForParams(): LinkedList<String> {
     val charStack = Stack<Char>()
@@ -67,6 +71,8 @@ fun String.splitForParams(): LinkedList<String> {
     return split
 }
 
-fun String.ifBeginWith(beginString:String):Boolean{
-    return this.indexOf(beginString)==0
-}
+/**
+fun String.ifBeginWith(beginString:String)=this.indexOf(beginString)==0
+
+        
+        */
