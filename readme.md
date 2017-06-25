@@ -9,7 +9,7 @@
 
 [BugKotlinDocument issues in Shimo Document](https://shimo.im/doc/Hgztf6VnEG4eo9vJ)
 ## v0.1.1 A simple version:
-- remove the Gradle so reduce from 16MB to 13KB 
+- remove the Gradle so that the package has been reduced from 16MB to 13KB 
 - solve Repeated matching problem and maybe it still remains :joy:
 
 [Problems Here](#Problems)
