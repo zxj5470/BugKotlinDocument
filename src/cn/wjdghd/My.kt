@@ -18,7 +18,7 @@ class My : ApplicationComponent {
 
     override fun disposeComponent() {}
     /**
-     * @param  : 
+     * @param  :
      */
     override fun getComponentName(): String {
         return "BugKotlinDocument"
@@ -61,15 +61,6 @@ class My : ApplicationComponent {
         }
     }
 
-    /**
-     * @param thisLine String : 
-     * @param realNextLine String : 
-     * @param realNext String : 
-     * @param r String : 
-     */
-    fun stringFactory(thisLine: String, realNextLine: String, realNext: String,r: String){
-
-    }
 
     fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
         val beginBeforeEachLine = realNextLine.beginSpaces()
@@ -89,9 +80,6 @@ class My : ApplicationComponent {
         }
         sb.append(beginBeforeEachLine)
         sb.append(DOC_END)
-        //don't need to `LF` because of its ending
-        //sb.append(NEXT_LINE)
-//        println("StringBuffer-------------\n$sb")
         return realNext.replace(thisLine, sb.toString())
     }
 
@@ -128,6 +116,7 @@ class My : ApplicationComponent {
         val functionHead = s.substring(1, indexEnd)
         return functionHead
     }
+
 
     private fun getRealNext(editor: Editor): String {
         val document = editor.document
