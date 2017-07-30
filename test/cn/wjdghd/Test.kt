@@ -34,5 +34,13 @@ import javax.servlet.http.*
         val a=1
         return a
     }
+
+    fun a():Int{
+        return 0
+    }
+    
+    fun b(){
+        
+    }
 }
 

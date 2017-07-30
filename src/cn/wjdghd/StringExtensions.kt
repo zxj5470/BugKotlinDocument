@@ -3,13 +3,8 @@ package cn.wjdghd
 import com.intellij.util.containers.Stack
 import java.util.*
 
-//constants
-val NEXT_LINE = "\n"
-val PARAM = "@param "
-val RETURN = "@return"
-val DOC_INNER = " * "
-val LINE_SPLIT_COLON = " : "
-val DOC_END = " */"
+
+
 
 fun String.countSpaceNum(tabSpaceNum: Int = 4): Int {
     var count = 0

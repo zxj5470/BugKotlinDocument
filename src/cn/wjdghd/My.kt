@@ -1,5 +1,6 @@
 package cn.wjdghd
 
+import cn.wjdghd.constants.RuntimeConstants.*
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -17,9 +18,7 @@ class My : ApplicationComponent {
     override fun initComponent() {}
 
     override fun disposeComponent() {}
-    /**
-     * @param  :
-     */
+
     override fun getComponentName(): String {
         return "BugKotlinDocument"
     }
@@ -116,7 +115,6 @@ class My : ApplicationComponent {
         val functionHead = s.substring(1, indexEnd)
         return functionHead
     }
-
 
     private fun getRealNext(editor: Editor): String {
         val document = editor.document
