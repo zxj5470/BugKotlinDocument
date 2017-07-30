@@ -1,11 +1,12 @@
-package cn.wjdghd
+package cn.wjdghd.entity
 
 import com.intellij.util.containers.Stack
 import java.util.*
 
-
-
-
+/**
+ * count the Space Number(one tab is for 4 spaces)
+ * @param tabSpaceNum Int = 4 :
+ */
 fun String.countSpaceNum(tabSpaceNum: Int = 4): Int {
     var count = 0
     for (i in this.indices) {
@@ -15,17 +16,23 @@ fun String.countSpaceNum(tabSpaceNum: Int = 4): Int {
     }
     return count
 }
-
-fun String.beginSpaces(): String {
-    val numberOfSpace = countSpaceNum()
+ /**
+  * operator reload `*`
+  * @param times Int : the number of times(*)
+  */
+operator fun String.times(times: Int): String {
     val sb = StringBuilder()
-    for (i in 0..numberOfSpace) {
-        sb.append(' ')
+    for (i in 0..times) {
+        sb.append(this)
     }
     return sb.toString()
 }
 
-fun String.splitForParams(): LinkedList<String> {
+fun String.beginSpaces(): String {
+    return " " * countSpaceNum()
+}
+
+fun String.splitWithParams(): LinkedList<String> {
     val charStack = Stack<Char>()
     val split = LinkedList<String>()
     var index: Int = 0

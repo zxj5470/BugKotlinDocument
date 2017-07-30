@@ -57,7 +57,7 @@ fun String.countSpaceNum(tabSpaceNum: Int = 4): Int{/*code*/}
 * 
 * @return LinkedList<String> :
 */
-fun String.splitForParams(): LinkedList<String> {/*code*/}
+fun String.splitWithParams(): LinkedList<String> {/*code*/}
 
 
 ```

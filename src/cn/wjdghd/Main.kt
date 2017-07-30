@@ -7,7 +7,7 @@ import com.intellij.openapi.application.ApplicationManager
 class Main : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val application = ApplicationManager.getApplication()
-        val myComponent = application.getComponent(My::class.java)
+        val myComponent = application.getComponent(MainComponent::class.java)
         myComponent.todo(e)
     }
 }

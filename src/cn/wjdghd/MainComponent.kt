@@ -1,6 +1,8 @@
 package cn.wjdghd
 
 import cn.wjdghd.constants.RuntimeConstants.*
+import cn.wjdghd.entity.beginSpaces
+import cn.wjdghd.entity.splitWithParams
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -11,7 +13,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.util.containers.Stack
 
-class My : ApplicationComponent {
+class MainComponent : ApplicationComponent {
     lateinit var editor: Editor
     lateinit var document: Document
 
@@ -69,7 +71,7 @@ class My : ApplicationComponent {
         sb.append(NEXT_LINE)
 
         val r = getFunctionDeclarationLine(realNextLine)
-        r.splitForParams().forEach {
+        r.splitWithParams().forEach {
             sb.append(beginBeforeEachLine)
             sb.append(DOC_INNER)
             sb.append(PARAM)

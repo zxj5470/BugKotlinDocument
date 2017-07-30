@@ -20,7 +20,7 @@ import javax.servlet.http.*
         super.doPost(req, resp)
     }"""
 
-    val m = My()
+    val m = MainComponent()
 
     println("old_______\n$whole")
     println("new_______\n")

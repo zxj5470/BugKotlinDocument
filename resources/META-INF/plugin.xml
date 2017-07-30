@@ -28,7 +28,7 @@
 
     <application-components>
         <component>
-            <implementation-class>cn.wjdghd.My</implementation-class>
+            <implementation-class>cn.wjdghd.MainComponent</implementation-class>
         </component>
     </application-components>
 </idea-plugin>
