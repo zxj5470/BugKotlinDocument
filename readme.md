@@ -59,9 +59,21 @@ fun String.countSpaceNum(tabSpaceNum: Int = 4): Int{/*code*/}
 */
 fun String.splitWithParams(): LinkedList<String> {/*code*/}
 
-
 ```
+# Single Download
+```
+git clone https://www.github.com/zxj5470/BugKotlinDocument
+```
+`Preference -> Plugin -> Install plugin from disk` in Idea/Android Studio
+and find `plugin.jar`  
+then enjoy Bugs!!!!
 
+# For Developer
+
+You should 
+copy the `workspace.xml` to 
+`.idea/workspace.xml`
+otherwise the project won't run as a plugin!!!!
 
 # THe End
 
