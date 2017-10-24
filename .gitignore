@@ -1,2 +1,14 @@
-.idea/
+
+#   ATTENTION!!!!!
+#   You shouldn't ignore the .idea folder because you won't able to run as a plugin!!!!
+
+#   .idea/
+#   *.iml
+
+#these packages only 13KB so that I don't want to ignore.
+
+#   *.zip
+#   *.jar
+
 out/
+test/
