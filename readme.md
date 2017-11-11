@@ -1,13 +1,12 @@
 # Plugin for IntelliJ IDEA in Kotlin File
 
-- Write with Kotlin.
-- Use in Kotlin.
+- Write by Kotlin.
+- Use for Kotlin.
 - Generate notation in Kotlin file.
 - It still remains lots of bugs and most of works are not completed and finished...Keep fighting.
 
 [BugKotlinDocument issues in GitHub](https://github.com/zxj5470/BugKotlinDocument/issues)
 
-[BugKotlinDocument issues in Shimo Document](https://shimo.im/doc/Hgztf6VnEG4eo9vJ)
 ## v0.1.1 A simple version:
 - remove the Gradle so that the package has been reduced from 16MB to 13KB 
 - solve Repeated matching problem and maybe it still remains :joy:

@@ -1,2 +1,5 @@
-.idea/
+#.idea/
 out/
+.idea/dictionaries
+.idea/inspectionProfiles
+.idea/libraries
