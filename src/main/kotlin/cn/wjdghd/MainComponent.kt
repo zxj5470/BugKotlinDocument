@@ -3,13 +3,17 @@ package cn.wjdghd
 import cn.wjdghd.constants.RuntimeConstants.*
 import cn.wjdghd.entity.beginSpaces
 import cn.wjdghd.entity.splitWithParams
+import cn.wjdghd.utils.*
+
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.components.ApplicationComponent
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.ui.MessageDialogBuilder
 import com.intellij.openapi.util.TextRange
 import com.intellij.util.containers.Stack
 
@@ -32,6 +36,8 @@ class MainComponent : ApplicationComponent {
         //get this editor
         editor = event.getData(PlatformDataKeys.EDITOR) ?: return
 
+        println(23333)
+        lg.debug("23333")
         // thisLine : get /** with spaces
         val thisLine = getThisLine(editor)
 
@@ -43,15 +49,16 @@ class MainComponent : ApplicationComponent {
 
         if (thisLine.trim() == "/**") {
             document = editor.document
-//            println("thisLine:----------\n$thisLine")
-//            println("realNext:----------\n$realNext")
-//            println("realNextLine:----------\n$realNextLine")
+            lg.debug("debug:")
+            println("thisLine:----------\n$thisLine")
+            println("realNext:----------\n$realNext")
+            println("realNextLine:----------\n$realNextLine")
 
             //replace the first line /** to ` /** with @param `
             //via matching @realNext which is the whole function block.
 
             val stringFac = stringFactory(thisLine, realNextLine, realNext)
-            val replaceString = document.text.replace(realNext, stringFac)
+            val replaceString = document.text.replace(realNext, stringFac+ thisLine)
 
             //can be undone
             ApplicationManager.getApplication().runWriteAction {
@@ -65,13 +72,14 @@ class MainComponent : ApplicationComponent {
 
     fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
         val beginBeforeEachLine = realNextLine.beginSpaces()
-        val sb = StringBuffer()
+        val sb = StringBuilder()
         sb.append(beginBeforeEachLine)
         sb.append(thisLine.trim())
         sb.append(NEXT_LINE)
 
         val r = getFunctionDeclarationLine(realNextLine)
-        r.splitWithParams().forEach {
+        val stringLines=r.splitWithParams()
+        stringLines.forEach {
             sb.append(beginBeforeEachLine)
             sb.append(DOC_INNER)
             sb.append(PARAM)
