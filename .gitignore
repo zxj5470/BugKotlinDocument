@@ -1,5 +1,7 @@
 .idea/
 out/
 build/
-
+.gradle/
+gralde/
 *.iml
+.DS_Store
