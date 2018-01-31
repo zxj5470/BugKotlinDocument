@@ -1,17 +1,15 @@
 # Plugin for IntelliJ IDEA in Kotlin File
 
-- Write by Kotlin.
-- Use for Kotlin.
 - Generate notation in Kotlin file.
 - It still remains lots of bugs and most of works are not completed and finished...Keep fighting.
+- I will finish this after `julia-intellij` plugin
 
-[BugKotlinDocument issues in GitHub](https://github.com/zxj5470/BugKotlinDocument/issues)
+[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg)](https://plugins.jetbrains.com/plugin/10413-julia)
+[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9781-bugkotlindocument.svg)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 
-## v0.1.1 A simple version:
-- remove the Gradle so that the package has been reduced from 16MB to 13KB 
-- solve Repeated matching problem and maybe it still remains :joy:
+[issues](https://github.com/zxj5470/BugKotlinDocument/issues)
 
-[Problems Here](#Problems)
+
 
 # Examples:
 #### 1.type the CharSequence "/**"
@@ -68,11 +66,13 @@ and find `plugin.jar`
 then enjoy Bugs!!!!
 
 # For Developer
-
+<del>
 You should 
 copy the `workspace.xml` to 
 `.idea/workspace.xml`
 otherwise the project won't run as a plugin!!!!
+</del>
+You can just build by gradle,so ignore that.
 
 # THe End
 
