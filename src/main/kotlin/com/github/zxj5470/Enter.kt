@@ -34,13 +34,13 @@ class BKDTypedHandler : EnterHandlerDelegate {
 			}
 			val realNext = getRealNext(editor)
 			val stringFac = stringFactory(thisLine, realNextLine, realNext)
-			println("---thisLine---\n" +
-					"$thisLine \n" +
-					"---realNextLine---\n" +
-					"$realNextLine \n" +
-					"---$realNext---\n" +
-					"$stringFac\n" +
-					"---END---")
+//			println("---thisLine---\n" +
+//					"$thisLine \n" +
+//					"---realNextLine---\n" +
+//					"$realNextLine \n" +
+//					"---$realNext---\n" +
+//					"$stringFac\n" +
+//					"---END---")
 			val replaceString = document.text.replace(realNext, stringFac)
 			ApplicationManager.getApplication().runWriteAction {
 				CommandProcessor.getInstance().runUndoTransparentAction {
@@ -55,8 +55,7 @@ class BKDTypedHandler : EnterHandlerDelegate {
 
 fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
 	val beginIndent = realNextLine.beginSpaces()
-	val r = getFunctionDeclarationLine(realNextLine)
-	val docLines = r.splitWithParams()
+	val docLines = getFunctionDeclarationLine(realNextLine).splitWithParams()
 	//`  /** ` in first line
 	val sb = StringBuilder()
 	sb.append(thisLine)

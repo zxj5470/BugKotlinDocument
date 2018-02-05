@@ -5,14 +5,15 @@ import java.util.*
 
 fun String.beginSpaces(): String {
 	val sb=StringBuilder()
-	run breaking@{
-		this.forEach{
-			if(it == ' '||it =='\t'){
-				sb.append(it)
-			}
-			else return@breaking
+	println(this)
+	for(it in this){
+		if(it in " \t"){
+			sb.append(it)
 		}
+		else break
 	}
+	println("str:"+sb.toString())
+	println(sb.toString().length)
 	return sb.toString()
 }
 

@@ -180,8 +180,8 @@ fun getRealNextLine(editor: Editor): String {
 	val document = editor.document
 	val caretModel = editor.caretModel
 	val caretOffset = caretModel.offset
-	val lineNum = document.getLineNumber(caretOffset)
-	val lineStartOffset = document.getLineStartOffset(lineNum + 1)
+	val lineNum = document.getLineNumber(caretOffset) + 1
+	val lineStartOffset = document.getLineStartOffset(lineNum)
 	val s = document.text.substring(lineStartOffset)
 	val charStack = Stack<Char>()
 	var top: Char
