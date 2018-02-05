@@ -79,15 +79,13 @@ fun getThisLine(editor: Editor): String {
 
 fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
 	val beginBeforeEachLine = realNextLine.beginSpaces()
-
-
 	val r = getFunctionDeclarationLine(realNextLine)
 	val stringLines = r.splitWithParams()
 	//`  /** ` in first line
 	val sb = StringBuilder()
 	sb.append(beginBeforeEachLine)
 	sb.append(thisLine.trim())
-	sb.append(NEXT_LINE)
+	sb.append(LF)
 	// ` * ` in each line
 	stringLines.forEach {
 		sb.append(beginBeforeEachLine)
@@ -97,9 +95,8 @@ fun stringFactory(thisLine: String, realNextLine: String, realNext: String): Str
 			sb.append(it)
 			sb.append(LINE_SPLIT_COLON)
 		}
-		sb.append(NEXT_LINE)
+		sb.append(LF)
 	}
-
 	sb.append(beginBeforeEachLine)
 	sb.append(DOC_END)
 	return realNext.replace(thisLine, sb.toString())
