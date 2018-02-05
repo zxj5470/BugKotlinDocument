@@ -15,202 +15,203 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.util.containers.Stack
 
 class MainComponent : ApplicationComponent {
-    lateinit var editor: Editor
-    lateinit var document: Document
+	lateinit var editor: Editor
+	lateinit var document: Document
 
-    override fun initComponent() {}
+	override fun initComponent() {}
 
-    override fun disposeComponent() {}
+	override fun disposeComponent() {}
 
-    override fun getComponentName(): String {
-        return "BugKotlinDocument"
-    }
+	override fun getComponentName(): String {
+		return "BugKotlinDocument"
+	}
 
-    /**
-     * @param event AnActionEvent : 
-     */
-    fun todo(event: AnActionEvent) {
+	/**
+	 * @param event AnActionEvent :
+	 */
+	fun todo(event: AnActionEvent) {
 
-        //get this editor
-        editor = event.getData(PlatformDataKeys.EDITOR) ?: return
+		//get this editor
+		editor = event.getData(PlatformDataKeys.EDITOR) ?: return
 
-        // thisLine : get /** with spaces
-        val thisLine = getThisLine(editor)
+		// thisLine : get /** with spaces
+		val thisLine = getThisLine(editor)
 
-        val realNextLine = getRealNextLine(editor)
-        val realNext = getRealNext(editor)
+		val realNextLine = getRealNextLine(editor)
+		val realNext = getRealNext(editor)
 
-        //avoid to mul-replaced
-        if (realNextLine.trim()[0] == '*') return
+		//avoid to mul-replaced
+		if (realNextLine.trim()[0] == '*') return
 
-        if (thisLine.trim() == "/**") {
-            document = editor.document
+		if (thisLine.trim() == "/**") {
+			document = editor.document
 //            println("thisLine:----------\n$thisLine")
 //            println("realNext:----------\n$realNext")
 //            println("realNextLine:----------\n$realNextLine")
-            //replace the first line /** to ` /** with @param `
-            //via matching @realNext which is the whole function block.
+			//replace the first line /** to ` /** with @param `
+			//via matching @realNext which is the whole function block.
 
-            val stringFac = stringFactory(thisLine, realNextLine, realNext)
-            val replaceString = document.text.replace(realNext, stringFac)
+			val stringFac = stringFactory(thisLine, realNextLine, realNext)
+			val replaceString = document.text.replace(realNext, stringFac)
 
-            //can be undone
-            ApplicationManager.getApplication().runWriteAction {
-                CommandProcessor.getInstance().runUndoTransparentAction {
-                    this.document.setText(replaceString)
-                }
-            }
-        }
-    }
-
-
-    fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
-        val beginBeforeEachLine = realNextLine.beginSpaces()
+			//can be undone
+			ApplicationManager.getApplication().runWriteAction {
+				CommandProcessor.getInstance().runUndoTransparentAction {
+					this.document.setText(replaceString)
+				}
+			}
+		}
+	}
 
 
-        val r = getFunctionDeclarationLine(realNextLine)
-        val stringLines=r.splitWithParams()
-        //`  /** ` in first line
-        val sb = StringBuilder()
-        sb.append(beginBeforeEachLine)
-        sb.append(thisLine.trim())
-        sb.append(NEXT_LINE)
-        // ` * ` in each line
-        stringLines.forEach{
-            sb.append(beginBeforeEachLine)
-            sb.append(DOC_INNER)
-            if(it.isNotEmpty()){
-                sb.append(PARAM)
-                sb.append(it)
-                sb.append(LINE_SPLIT_COLON)
-            }
-            sb.append(NEXT_LINE)
-        }
+}
 
-        sb.append(beginBeforeEachLine)
-        sb.append(DOC_END)
-        return realNext.replace(thisLine, sb.toString())
-    }
+fun getThisLine(editor: Editor): String {
+	val document = editor.document
+	val caretModel = editor.caretModel
+	val caretOffset = caretModel.offset
+	val lineNum = document.getLineNumber(caretOffset)
+	val lineStartOffset = document.getLineStartOffset(lineNum)
+	val lineEndOffset = document.getLineEndOffset(lineNum)
+	return document.getText(TextRange(lineStartOffset, lineEndOffset))
+}
 
-    private fun getFunctionDeclarationLine(str: String): String {
-        val charStack = Stack<Char>()
-        val index = str.indexOf('(')
-        val s = str.substring(index)
-        var top: Char
-        var indexEnd: Int = 0
-        for (i in s.indices) {
-            top = if (charStack.empty()) ' ' else charStack.peek()
-            when (s[i]) {
-                '\'' -> {
-                    if (top != '\'') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '\"' -> {
-                    if (top != '\"') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '(', '{', '<' -> charStack.push(s[i])
-                ')' -> if (top == '(') charStack.pop()
-                '}' -> if (top == '{') charStack.pop()
-                '>' -> if (top == '<') charStack.pop()
-            }
-            if (charStack.isEmpty()) {
-                if (s[i] == ')') {
-                    indexEnd = i
-                    break
-                }
-            }
-        }
-        val functionHead = s.substring(1, indexEnd)
-        return functionHead
-    }
 
-    private fun getRealNext(editor: Editor): String {
-        val document = editor.document
-        val caretModel = editor.caretModel
-        val caretOffset = caretModel.offset
-        val lineNum = document.getLineNumber(caretOffset)
-        val lineStartOffset = document.getLineStartOffset(lineNum)
-        val sub = document.text.substring(lineStartOffset)
-        val charStack = Stack<Char>()
+fun stringFactory(thisLine: String, realNextLine: String, realNext: String): String {
+	val beginBeforeEachLine = realNextLine.beginSpaces()
 
-        val index = sub.indexOf('(')
-        val s = sub.substring(index)
-        var top: Char
-        var indexEnd: Int = 0
-        for (i in s.indices) {
-            top = if (charStack.empty()) ' ' else charStack.peek()
-            when (s[i]) {
-                '\'' -> {
-                    if (top != '\'') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '\"' -> {
-                    if (top != '\"') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '(', '{', '<' -> charStack.push(s[i])
-                ')' -> if (top == '(') charStack.pop()
-                '}' -> if (top == '{') charStack.pop()
-                '>' -> if (top == '<') charStack.pop()
-            }
-            if (charStack.isEmpty()) {
-                if (s[i] == '}') {
-                    indexEnd = i + 1
-                    break
-                }
-            }
-        }
-        val functionHead = s.substring(0, indexEnd)
-        val before = sub.substring(0, index)
-        return before + functionHead
-    }
 
-    private fun getThisLine(editor: Editor): String {
-        val document = editor.document
-        val caretModel = editor.caretModel
-        val caretOffset = caretModel.offset
-        val lineNum = document.getLineNumber(caretOffset)
-        val lineStartOffset = document.getLineStartOffset(lineNum)
-        val lineEndOffset = document.getLineEndOffset(lineNum)
-        return document.getText(TextRange(lineStartOffset, lineEndOffset))
-    }
+	val r = getFunctionDeclarationLine(realNextLine)
+	val stringLines = r.splitWithParams()
+	//`  /** ` in first line
+	val sb = StringBuilder()
+	sb.append(beginBeforeEachLine)
+	sb.append(thisLine.trim())
+	sb.append(NEXT_LINE)
+	// ` * ` in each line
+	stringLines.forEach {
+		sb.append(beginBeforeEachLine)
+		sb.append(DOC_INNER)
+		if (it.isNotEmpty()) {
+			sb.append(PARAM)
+			sb.append(it)
+			sb.append(LINE_SPLIT_COLON)
+		}
+		sb.append(NEXT_LINE)
+	}
 
-    private fun getRealNextLine(editor: Editor): String {
-        val document = editor.document
-        val caretModel = editor.caretModel
-        val caretOffset = caretModel.offset
-        val lineNum = document.getLineNumber(caretOffset)
-        val lineStartOffset = document.getLineStartOffset(lineNum + 1)
-        val s = document.text.substring(lineStartOffset)
-        val charStack = Stack<Char>()
-        var top: Char
-        var indexEnd: Int = 0
-        for (i in s.indices) {
-            top = if (charStack.empty()) ' ' else charStack.peek()
-            when (s[i]) {
-                '\'' -> {
-                    if (top != '\'') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '\"' -> {
-                    if (top != '\"') charStack.push(s[i])
-                    else charStack.pop()
-                }
-                '(', '{', '<' -> charStack.push(s[i])
-                ')' -> if (top == '(') charStack.pop()
-                '}' -> if (top == '{') charStack.pop()
-                '>' -> if (top == '<') charStack.pop()
-            }
-            if (charStack.isEmpty()) {
-                if (s[i] == '}') {
-                    indexEnd = i + 1
-                    break
-                }
-            }
-        }
-        val functionHead = s.substring(1, indexEnd)
-        return functionHead
-    }
+	sb.append(beginBeforeEachLine)
+	sb.append(DOC_END)
+	return realNext.replace(thisLine, sb.toString())
+}
 
+fun getFunctionDeclarationLine(str: String): String {
+	val charStack = Stack<Char>()
+	val index = str.indexOf('(')
+	val s = str.substring(index)
+	var top: Char
+	var indexEnd: Int = 0
+	for (i in s.indices) {
+		top = if (charStack.empty()) ' ' else charStack.peek()
+		when (s[i]) {
+			'\'' -> {
+				if (top != '\'') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'\"' -> {
+				if (top != '\"') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'(', '{', '<' -> charStack.push(s[i])
+			')' -> if (top == '(') charStack.pop()
+			'}' -> if (top == '{') charStack.pop()
+			'>' -> if (top == '<') charStack.pop()
+		}
+		if (charStack.isEmpty()) {
+			if (s[i] == ')') {
+				indexEnd = i
+				break
+			}
+		}
+	}
+	val functionHead = s.substring(1, indexEnd)
+	return functionHead
+}
+
+fun getRealNext(editor: Editor): String {
+	val document = editor.document
+	val caretModel = editor.caretModel
+	val caretOffset = caretModel.offset
+	val lineNum = document.getLineNumber(caretOffset)
+	val lineStartOffset = document.getLineStartOffset(lineNum)
+	val sub = document.text.substring(lineStartOffset)
+	val charStack = Stack<Char>()
+
+	val index = sub.indexOf('(')
+	val s = sub.substring(index)
+	var top: Char
+	var indexEnd: Int = 0
+	for (i in s.indices) {
+		top = if (charStack.empty()) ' ' else charStack.peek()
+		when (s[i]) {
+			'\'' -> {
+				if (top != '\'') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'\"' -> {
+				if (top != '\"') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'(', '{', '<' -> charStack.push(s[i])
+			')' -> if (top == '(') charStack.pop()
+			'}' -> if (top == '{') charStack.pop()
+			'>' -> if (top == '<') charStack.pop()
+		}
+		if (charStack.isEmpty()) {
+			if (s[i] == '}') {
+				indexEnd = i + 1
+				break
+			}
+		}
+	}
+	val functionHead = s.substring(0, indexEnd)
+	val before = sub.substring(0, index)
+	return before + functionHead
+}
+
+fun getRealNextLine(editor: Editor): String {
+	val document = editor.document
+	val caretModel = editor.caretModel
+	val caretOffset = caretModel.offset
+	val lineNum = document.getLineNumber(caretOffset)
+	val lineStartOffset = document.getLineStartOffset(lineNum + 1)
+	val s = document.text.substring(lineStartOffset)
+	val charStack = Stack<Char>()
+	var top: Char
+	var indexEnd: Int = 0
+	for (i in s.indices) {
+		top = if (charStack.empty()) ' ' else charStack.peek()
+		when (s[i]) {
+			'\'' -> {
+				if (top != '\'') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'\"' -> {
+				if (top != '\"') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'(', '{', '<' -> charStack.push(s[i])
+			')' -> if (top == '(') charStack.pop()
+			'}' -> if (top == '{') charStack.pop()
+			'>' -> if (top == '<') charStack.pop()
+		}
+		if (charStack.isEmpty()) {
+			if (s[i] == '}') {
+				indexEnd = i + 1
+				break
+			}
+		}
+	}
+	val functionHead = s.substring(1, indexEnd)
+	return functionHead
 }
