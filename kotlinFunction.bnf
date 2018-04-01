@@ -92,7 +92,7 @@ private typeParameter::= modifiers SimpleName (":" userType)?
 // TODO	END 		typeParameters
 
 // TODO	BEGIN 	type
-type::=typeModifiers typeReference
+type::= typeModifiers typeReference
 private typeModifiers ::= (suspendModifier | annotations)*
 private typeReference ::=  "(" typeReference ")"
                            | functionType

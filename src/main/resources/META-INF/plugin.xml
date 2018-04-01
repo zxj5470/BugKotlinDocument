@@ -1,35 +1,24 @@
 <idea-plugin>
-    <id>com.github.zxj5470.bugktdoc</id>
-    <name>BugKotlinDocument</name>
-    <version>0.2.0</version>
-    <vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument/issues">zxj5470</vendor>
+	<id>com.github.zxj5470.bugktdoc</id>
+	<name>BugKotlinDocument</name>
+	<version>0.2.0</version>
+	<vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument/issues">zxj5470</vendor>
 
-    <description>To generate document in Kotlin File</description>
+	<description>To generate document in Kotlin File</description>
 
-    <change-notes>
-        usage:type /** and press Alt+N(default)&#009;
-        v0.1.2(reduce some bugs) and can be used in Android Studio
-    </change-notes>
+	<change-notes>
+		usage:type /** and press Alt+N(default)&#009;
+		v0.1.2(reduce some bugs) and can be used in Android Studio
+	</change-notes>
 
-    <idea-version since-build="139"/>
+	<idea-version since-build="139"/>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <enterHandlerDelegate implementation="com.github.zxj5470.bugktdoc.BugKotlinEnterHandlerDelegate"/>
-    </extensions>
-
-    <actions>
-        <action id="zxj5470" class="cn.wjdghd.Main" text="BugKotlinDocument">
-            <add-to-group group-id="RefactoringMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="alt N"/>
-        </action>
-    </actions>
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-           on how to target different products -->
-    <depends>com.intellij.modules.lang</depends>
-
-    <application-components>
-        <component>
-            <implementation-class>cn.wjdghd.MainComponent</implementation-class>
-        </component>
-    </application-components>
+	<extensions defaultExtensionNs="com.intellij">
+		<enterHandlerDelegate implementation="com.github.zxj5470.bugktdoc.BugKotlinEnterHandlerDelegate"/>
+		<typedHandler implementation="com.github.zxj5470.bugktdoc.BugKtDocEditorTypedHandler"/>
+		<!--<projectConfigurable groupId="editor"-->
+		<!--id="com.github.zxj5470.bugktdoc.projectConfigurable"-->
+		<!--instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>-->
+	</extensions>
+	<depends>com.intellij.modules.lang</depends>
 </idea-plugin>

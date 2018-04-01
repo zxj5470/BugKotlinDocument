@@ -1,7 +1,7 @@
 package cn.wjdghd.debug
 
-fun String.log(str: String = "") {
-    println("------$str--------")
+fun String.log(tag: String = "") {
+	println("------$tag--------")
     println(this)
     println("--------------")
 }

@@ -2,19 +2,21 @@ package com.github.zxj5470.bugktdoc.constants
 
 /**
  * @author: zxj5470
+ * @since 0.2.0
  * @date: 2018/4/1
  */
-object DocControl {
-	val END = " */"
-	val INNER = " * "
-	val LF = "\n"
-	val SPACE = " "
-	val TYPE_SPLIT_COLON = " : "
+object BugKtDocControl {
+	const val END = " */"
+	const val INNER = " * "
+	const val LF = "\n"
+	const val SPACE = " "
+	const val TYPE_SPLIT_COLON = " : "
 }
 
-object DocDecoration {
-	val AUTHOR = "@author"
-	val PARAM = "@param"
-	val RETURN = "@return"
-	val THROWS = "@throws"
+object BugKtDocDecoration {
+	const val AUTHOR = "@author"
+	const val PARAM = "@param"
+	const val RECEIVER = "@receiver"
+	const val RETURN = "@return"
+	const val THROWS = "@throws"
 }

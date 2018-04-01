@@ -1,47 +1,50 @@
 buildscript {
-    ext.kotlin_version = '1.2.30'
-    repositories {
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+	ext.kotlin_version = '1.2.30'
+	repositories {
+		mavenCentral()
+		maven { url "https://jitpack.io" }
+	}
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
 }
 plugins {
-    id "org.jetbrains.intellij" version '0.2.18'
+	id "org.jetbrains.intellij" version '0.3.1'
 }
 
-
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'kotlin'
-    apply plugin: 'org.jetbrains.intellij'
-    intellij {
-        version idea_version
-        type idea_type
-        updateSinceUntilBuild false
-        instrumentCode true
-        plugins 'kotlin'
-    }
+	apply plugin: 'java'
+	apply plugin: 'kotlin'
+	apply plugin: 'org.jetbrains.intellij'
+	intellij {
+		version '2017.3'
+		type idea_type
+		updateSinceUntilBuild false
+		instrumentCode true
+		plugins 'kotlin'
+	}
 }
 
 group 'com.github.zxj5470'
 version plugin_version
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlin_version"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+sourceSets {
+	main.java {
+		srcDirs += ['src/main/java']
+	}
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+	kotlinOptions.jvmTarget = '1.8'
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+	kotlinOptions.jvmTarget = '1.8'
 }

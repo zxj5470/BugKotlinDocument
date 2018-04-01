@@ -1,5 +1,6 @@
 package com.github.zxj5470.bugktdoc
 
+import cn.wjdghd.entity.beginIndents
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegate
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.application.ApplicationManager
@@ -13,26 +14,31 @@ class BugKotlinEnterHandlerDelegate : EnterHandlerDelegate {
 
 	var canGenerateDocument = false
 
-	fun asda(): String??????????? {
-		return ""
-	}
+	// Temp solution. FIXME
+	var indentString = ""
 
+	/**
+	 *  after. so the `currentLine` is different from [preprocessEnter]
+	 */
 	override fun postProcessEnter(psiFile: PsiFile, editor: Editor, context: DataContext): EnterHandlerDelegate.Result {
 		if (canGenerateDocument) {
-			val document = editor.document
-			val offset = editor.caretModel.currentCaret.offset
-			val stringFac = genDocString(getFunctionNextLine(editor))
-			ApplicationManager.getApplication().runWriteAction {
-				CommandProcessor.getInstance().runUndoTransparentAction {
-					document.insertString(offset, stringFac)
+			editor.run {
+				val offset = caretModel.currentCaret.offset
+				val stringFac = genDocString(getFunctionNextLine(editor), indentString)
+				ApplicationManager.getApplication().runWriteAction {
+					CommandProcessor.getInstance().runUndoTransparentAction {
+						document.insertString(offset, stringFac)
+					}
 				}
 			}
 		}
 		return EnterHandlerDelegate.Result.Continue
 	}
 
+	// when pressing (before invoke)
 	override fun preprocessEnter(file: PsiFile, editor: Editor, caretOffset: Ref<Int>, caretAdvance: Ref<Int>, dataContext: DataContext, originalHandler: EditorActionHandler?): EnterHandlerDelegate.Result {
 		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !editorNextLine(editor).trim().startsWith("*")
+		if (canGenerateDocument) indentString = getTextAfter(editor, 1).beginIndents()
 		return EnterHandlerDelegate.Result.Continue
 	}
 }
