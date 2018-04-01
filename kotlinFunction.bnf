@@ -11,6 +11,7 @@ KotlinFunctionSignature::=
 //TODO
 //TODO
 //TODO
+// important things repeat three times.
 
 // You know it.
 private SimpleName ::= <java identifier>
@@ -99,7 +100,7 @@ private typeReference ::=  "(" typeReference ")"
 //                           | nullableType
                            | "dynamic"
 
-private functionType ::= (type ".")? "(" parameter{","}? ")" "->" type?
+private functionType ::= (SimpleName|(userType) ".")? "(" parameter{","}? ")" "->" type?
 	private parameter::= SimpleName ":" type
 
 private userType::= simpleUserType{"."}
@@ -116,4 +117,4 @@ valueParameters ::= "(" functionParameter{","}? ")"
 typeConstraints ::= ("where" typeConstraint{","})?
 	private typeConstraint ::= annotations SimpleName ":" type
 
-
+// kotlinFunction TODO END
