@@ -4,17 +4,11 @@ import com.intellij.util.containers.Stack
 import java.util.*
 
 fun String.beginSpaces(): String {
-	val sb=StringBuilder()
-	println(this)
-	for(it in this){
-		if(it in " \t"){
-			sb.append(it)
+	return buildString {
+		this@beginSpaces.filter { it in " \t" }.forEach {
+			append(it)
 		}
-		else break
 	}
-	println("str:"+sb.toString())
-	println(sb.toString().length)
-	return sb.toString()
 }
 
 fun String.splitWithParams(): LinkedList<String> {

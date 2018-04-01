@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>cn.wjdghd.plugin.id</id>
+    <id>com.github.zxj5470.bugktdoc</id>
     <name>BugKotlinDocument</name>
     <version>0.2.0</version>
     <vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument/issues">zxj5470</vendor>
@@ -14,7 +14,7 @@
     <idea-version since-build="139"/>
 
     <extensions defaultExtensionNs="com.intellij">
-        <enterHandlerDelegate implementation="com.github.zxj5470.BKDTypedHandler"/>
+        <enterHandlerDelegate implementation="com.github.zxj5470.bugktdoc.BugKotlinEnterHandlerDelegate"/>
     </extensions>
 
     <actions>

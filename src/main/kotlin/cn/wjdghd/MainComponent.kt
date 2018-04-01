@@ -1,8 +1,8 @@
 package cn.wjdghd
 
-import cn.wjdghd.constants.RuntimeConstants.*
 import cn.wjdghd.entity.beginSpaces
 import cn.wjdghd.entity.splitWithParams
+import com.github.zxj5470.bugktdoc.constants.*
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -37,7 +37,7 @@ class MainComponent : ApplicationComponent {
 		// thisLine : get /** with spaces
 		val thisLine = getThisLine(editor)
 
-		val realNextLine = getRealNextLine(editor)
+		val realNextLine = getFunctionNextLine(editor)
 		val realNext = getRealNext(editor)
 
 		//avoid to mul-replaced
@@ -85,20 +85,20 @@ fun stringFactory(thisLine: String, realNextLine: String, realNext: String): Str
 	val sb = StringBuilder()
 	sb.append(beginBeforeEachLine)
 	sb.append(thisLine.trim())
-	sb.append(LF)
+	sb.append(DocControl.LF)
 	// ` * ` in each line
 	stringLines.forEach {
 		sb.append(beginBeforeEachLine)
-		sb.append(DOC_INNER)
+		sb.append(DocControl.INNER)
 		if (it.isNotEmpty()) {
-			sb.append(PARAM)
+			sb.append(DocDecoration.PARAM)
 			sb.append(it)
-			sb.append(LINE_SPLIT_COLON)
+			sb.append(DocControl.TYPE_SPLIT_COLON)
 		}
-		sb.append(LF)
+		sb.append(DocControl.LF)
 	}
 	sb.append(beginBeforeEachLine)
-	sb.append(DOC_END)
+	sb.append(DocControl.END)
 	return realNext.replace(thisLine, sb.toString())
 }
 
@@ -176,7 +176,7 @@ fun getRealNext(editor: Editor): String {
 	return before + functionHead
 }
 
-fun getRealNextLine(editor: Editor): String {
+fun getFunctionNextLine(editor: Editor): String {
 	val document = editor.document
 	val caretModel = editor.caretModel
 	val caretOffset = caretModel.offset
