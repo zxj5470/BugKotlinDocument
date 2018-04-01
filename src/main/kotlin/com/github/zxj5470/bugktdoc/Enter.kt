@@ -1,6 +1,5 @@
 package com.github.zxj5470.bugktdoc
 
-import cn.wjdghd.*
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegate
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.application.ApplicationManager
@@ -11,10 +10,15 @@ import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 
 class BugKotlinEnterHandlerDelegate : EnterHandlerDelegate {
-	var ok = false
+
+	var canGenerateDocument = false
+
+	fun asda(): String??????????? {
+		return ""
+	}
 
 	override fun postProcessEnter(psiFile: PsiFile, editor: Editor, context: DataContext): EnterHandlerDelegate.Result {
-		if (ok) {
+		if (canGenerateDocument) {
 			val document = editor.document
 			val offset = editor.caretModel.currentCaret.offset
 			val stringFac = genDocString(getFunctionNextLine(editor))
@@ -27,9 +31,8 @@ class BugKotlinEnterHandlerDelegate : EnterHandlerDelegate {
 		return EnterHandlerDelegate.Result.Continue
 	}
 
-
-	override fun preprocessEnter(p0: PsiFile, editor: Editor, p2: Ref<Int>, p3: Ref<Int>, p4: DataContext, p5: EditorActionHandler?): EnterHandlerDelegate.Result {
-		ok = getCurrentLine(editor).endsWith("/**") && !editorNextLine(editor).trim().startsWith("*")
+	override fun preprocessEnter(file: PsiFile, editor: Editor, caretOffset: Ref<Int>, caretAdvance: Ref<Int>, dataContext: DataContext, originalHandler: EditorActionHandler?): EnterHandlerDelegate.Result {
+		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !editorNextLine(editor).trim().startsWith("*")
 		return EnterHandlerDelegate.Result.Continue
 	}
 }

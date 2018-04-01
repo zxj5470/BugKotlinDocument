@@ -3,6 +3,7 @@ package cn.wjdghd
 import cn.wjdghd.entity.beginSpaces
 import cn.wjdghd.entity.splitWithParams
 import com.github.zxj5470.bugktdoc.constants.*
+import com.github.zxj5470.bugktdoc.getFunctionNextLine
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -174,41 +175,4 @@ fun getRealNext(editor: Editor): String {
 	val functionHead = s.substring(0, indexEnd)
 	val before = sub.substring(0, index)
 	return before + functionHead
-}
-
-fun getFunctionNextLine(editor: Editor): String {
-	val document = editor.document
-	val caretModel = editor.caretModel
-	val caretOffset = caretModel.offset
-	val lineNum = document.getLineNumber(caretOffset) + 1
-	val lineStartOffset = document.getLineStartOffset(lineNum)
-	val s = document.text.substring(lineStartOffset)
-	val charStack = Stack<Char>()
-	var top: Char
-	var indexEnd: Int = 0
-	for (i in s.indices) {
-		top = if (charStack.empty()) ' ' else charStack.peek()
-		when (s[i]) {
-			'\'' -> {
-				if (top != '\'') charStack.push(s[i])
-				else charStack.pop()
-			}
-			'\"' -> {
-				if (top != '\"') charStack.push(s[i])
-				else charStack.pop()
-			}
-			'(', '{', '<' -> charStack.push(s[i])
-			')' -> if (top == '(') charStack.pop()
-			'}' -> if (top == '{') charStack.pop()
-			'>' -> if (top == '<') charStack.pop()
-		}
-		if (charStack.isEmpty()) {
-			if (s[i] == '}') {
-				indexEnd = i + 1
-				break
-			}
-		}
-	}
-	val functionHead = s.substring(1, indexEnd)
-	return functionHead
 }
