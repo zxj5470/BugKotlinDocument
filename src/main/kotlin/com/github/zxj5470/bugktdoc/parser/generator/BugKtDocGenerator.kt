@@ -1,4 +1,4 @@
-package com.github.zxj5470.bugktdoc.generator
+package com.github.zxj5470.bugktdoc.parser.generator
 
 import com.github.zxj5470.bugktdoc.castTo
 import com.github.zxj5470.bugktdoc.parser.psi.BugKtDocModel as Model
@@ -18,6 +18,7 @@ object BugKtDocGenerator {
 				append(Decorator.THROWS)
 				append(Doc.SPACE)
 				append(it)
+				append(Doc.SPACE)
 				append(Doc.LF)
 			}
 		}
