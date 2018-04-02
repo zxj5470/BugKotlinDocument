@@ -17,6 +17,17 @@ fun String.beginIndents(): String = buildString {
 	}
 }
 
+fun String.newBeginIndents(): String = buildString {
+	run breaking@{
+		this@newBeginIndents.forEachIndexed { index, it ->
+			if (it in " \t") {
+				if (this@newBeginIndents[index + 1] == '*') return@breaking
+				it.let(::append)
+			} else return@breaking
+		}
+	}
+}
+
 /**
  * TODO: stupid code
  * @since 0.1.0

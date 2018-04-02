@@ -1,7 +1,7 @@
 package com.github.zxj5470.bugktdoc.parser.generator
 
-import com.github.zxj5470.bugktdoc.castTo
-import com.github.zxj5470.bugktdoc.parser.psi.BugKtDocModel as Model
+import com.github.zxj5470.bugktdoc.parser.psi.*
+import com.github.zxj5470.bugktdoc.parser.psi.BugKtDocModel
 import com.github.zxj5470.bugktdoc.parser.psi.BugKtDocToken.GenerateType as DocType
 import com.github.zxj5470.bugktdoc.constants.BugKtDocControl as Doc
 import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration as Decorator
@@ -13,37 +13,41 @@ object BugKtDocGenerator {
 	private fun generateThrowsDoc(exceptions: List<String>, indents: String = ""): String = buildString {
 		if (exceptions.isNotEmpty()) {
 			exceptions.forEach {
+				append(Doc.LF)
 				append(indents)
 				append(Doc.INNER)
 				append(Decorator.THROWS)
 				append(Doc.SPACE)
 				append(it)
 				append(Doc.SPACE)
-				append(Doc.LF)
 			}
 		}
 	}
 
 	/**
-	 * @param paramAndType List<String> : a list like [ "a Int : ","b String : " ]
+	 * @param paramAndType List<String> : a list like [ "a Int","b String" ]
+	 * ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+	 * generate Doc just like this
 	 */
-	private fun generateFunctionParamDoc(paramAndType: List<String>, indents: String = "", extensionFunctionType: String = ""): String = buildString {
-		if (extensionFunctionType.isNotEmpty()) {
+	private fun generateFunctionParamDoc(paramAndType: List<String>, indents: String = "", receiver: String = ""): String = buildString {
+		if (receiver.isNotEmpty()) {
+			append(Doc.LF)
 			append(indents)
 			append(Doc.INNER)
 			append(Decorator.RECEIVER)
 			append(Doc.SPACE)
-			append(extensionFunctionType)
-			append(Doc.LF)
+			append(receiver)
+			append(Doc.SPACE)
 		}
 		if (paramAndType.isNotEmpty()) {
 			paramAndType.forEach {
+				append(Doc.LF)
 				append(indents)
 				append(Doc.INNER)
 				append(Decorator.PARAM)
 				append(Doc.SPACE)
 				append(it)
-				append(Doc.LF)
+				append(Doc.COLON_AFTER_TYPE)
 			}
 		}
 	}
@@ -53,21 +57,21 @@ object BugKtDocGenerator {
 	 */
 	private fun generateClassDoc(properties: List<String>, genericType: String, indents: String = ""): String = buildString {
 		if (genericType.isNotEmpty()) {
+			append(Doc.LF)
 			append(Doc.INNER)
 			append(Decorator.PARAM)
 			append(Doc.SPACE)
 			append(genericType)
-			append(Doc.LF)
 		}
 
 		if (properties.isNotEmpty()) {
 			properties.forEach {
+				append(Doc.LF)
 				append(indents)
 				append(Doc.INNER)
 				append(Decorator.PROPERTY)
 				append(Doc.SPACE)
 				append(it)
-				append(Doc.LF)
 			}
 		}
 	}
@@ -76,23 +80,38 @@ object BugKtDocGenerator {
 	private fun generateEnd() = buildString {
 	}
 
+	/**
+	 * @return String : the generate result
+	 * ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+	 * generate Doc just like this
+	 */
 	private fun generateReturn(returnType: String, indents: String = "") = buildString {
+		if (returnType.isNotEmpty()) {
+			append(Doc.LF)
+			append(indents)
+			append(Doc.INNER)
+			append(Decorator.RETURN)
+			append(Doc.SPACE)
+			append(returnType)
+			append(Doc.SPACE)
+		}
 	}
 
-	fun generate(type: DocType, entity: Any, indents: String = ""): String = buildString {
-		when (type) {
-			DocType.FUNCTION -> {
-				entity.castTo<Model.FunctionModel> {
+	fun generate(entity: BugKtDocModel, indents: String = ""): String = buildString {
+		when (entity) {
+			is FunctionModel -> {
+				entity.apply {
+					append(generateFunctionParamDoc(paramAndTypeList, indents, receiver))
 					append(generateThrowsDoc(throwsList, indents))
-					append(generateFunctionParamDoc(paramAndTyleList, indents, extensionFunctionType))
+					append(generateReturn(returnType, indents))
 				}
 			}
-			DocType.CLASS -> {
-				entity.castTo<Model.ClassModel> {
+			is ClassModel -> {
+				entity.apply {
 					append(generateClassDoc(properties, genericType, indents))
 				}
 			}
-			DocType.VARIABLE -> {
+			is VariableModel -> {
 
 			}
 		}

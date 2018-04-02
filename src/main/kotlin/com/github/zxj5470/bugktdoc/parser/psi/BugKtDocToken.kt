@@ -13,30 +13,33 @@ object BugKtDocToken {
 		VARIABLE
 	}
 
-	object Annotations {
-		const val THROWS = "@Throws"
-	}
+	const val ANNOTATION_THROWS = "Throws"
 
 	object Symbol {
 		const val ASSIGN = "="
-		const val AT_SYMBOL = "@"
+		const val AT = "@"
 		const val COMMA = ","
-		const val DOUBLE_COLON = "::"
+		const val COLONCOLON = "::"
 		const val EQUAL = "=="
-		const val SINGLE_COLON = ":"
+		const val COLON = ":"
+		const val DOT = "."
 		// generics
-		const val LESS_THAN = "<"
-		const val LARGER_THAN = ">"
+		const val LT = "<"
+		const val GT = ">"
 		// braces
-		const val BRACE_L = "("
-		const val BRACE_R = ")"
-		const val BRACKET_L = "{"
-		const val BRACKET_R = "}"
+		const val LPAR = "("
+		const val RPAR = ")"
+		const val LBRACE = "{"
+		const val RBRACE = "}"
 		const val SQUARE_BRACKET_L = "["
 		const val SQUARE_BRACKET_R = "]"
 	}
 
 	object KeyWord {
+		const val FUN = "fun"
+		const val CLASS = "class"
+		const val INTERFACE = "interface"
+
 		val sets by lazy {
 			listOf("class", "fun")
 		}

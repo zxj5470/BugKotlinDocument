@@ -25,7 +25,7 @@ class MainComponent : ApplicationComponent {
 		val editor = event.getData(PlatformDataKeys.EDITOR) ?: return
 		editor.run {
 			val offset = caretModel.currentCaret.offset
-			val indentString = getTextAfter(editor, 1)
+			val indentString = getTextAfterLine(editor, 1)
 			val stringFac = genDocString(getFunctionNextLine(editor), indentString, true)
 			ApplicationManager.getApplication().runWriteAction {
 				CommandProcessor.getInstance().runUndoTransparentAction {

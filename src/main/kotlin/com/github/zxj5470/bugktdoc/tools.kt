@@ -28,5 +28,3 @@ object BugKtDocBundle {
 	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
 		CommonBundle.message(bundle, key, *params)
 }
-
-inline fun <reified T> Any.castTo(block: T.() -> Unit) = (this as? T)?.apply { block() }

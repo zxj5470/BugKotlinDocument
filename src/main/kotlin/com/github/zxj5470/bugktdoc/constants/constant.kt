@@ -7,10 +7,10 @@ package com.github.zxj5470.bugktdoc.constants
  */
 object BugKtDocControl {
 	const val END = " */"
-	const val INNER = "* "
+	const val INNER = " * "
 	const val LF = "\n"
 	const val SPACE = " "
-	const val TYPE_SPLIT_COLON = " : "
+	const val COLON_AFTER_TYPE = " : "
 }
 
 object BugKtDocDecoration {

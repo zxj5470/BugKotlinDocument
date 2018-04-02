@@ -37,7 +37,7 @@ private fun getLine(editor: Editor, afterCurrentLine: Int = 0): String {
  * @see [getLine]
  * @author zxj5470
  */
-fun getTextAfter(editor: Editor, afterCurrentLine: Int = 0): String {
+fun getTextAfterLine(editor: Editor, afterCurrentLine: Int = 0): String {
 	editor.run {
 		val lineNum = lineNumber(afterCurrentLine)
 		if (lineNum > document.lineCount) return ""
@@ -45,6 +45,11 @@ fun getTextAfter(editor: Editor, afterCurrentLine: Int = 0): String {
 		return document.text.substring(lineStartOffset)
 	}
 }
+
+fun getTextAfter(editor: Editor): String =
+	editor.run {
+		document.text.substring(caretModel.offset)
+	}
 
 private fun Editor.lineNumber(afterCurrentLine: Int): Int {
 	val caretOffset = caretModel.offset
@@ -69,7 +74,7 @@ fun genDocString(realNextLine: String, indent: String = "", byAltN: Boolean = fa
 			append(BugKtDocDecoration.PARAM)
 			append(BugKtDocControl.SPACE)
 			append(it)
-			append(BugKtDocControl.TYPE_SPLIT_COLON)
+			append(BugKtDocControl.COLON_AFTER_TYPE)
 		}
 	if (byAltN) {
 		append(BugKtDocControl.LF)
@@ -116,7 +121,7 @@ fun getFunctionDeclarationLine(str: String): String {
  * @since 0.2.0
  */
 fun getFunctionNextLine(editor: Editor): String {
-	val s = getTextAfter(editor, 1)
+	val s = getTextAfterLine(editor, 1)
 	val charStack = Stack<Char>()
 	var top: Char
 	var indexEnd = 0
