@@ -18,19 +18,34 @@ object BugKtDocToken {
 	}
 
 	object Symbol {
+		const val ASSIGN = "="
 		const val AT_SYMBOL = "@"
 		const val COMMA = ","
 		const val DOUBLE_COLON = "::"
+		const val EQUAL = "=="
 		const val SINGLE_COLON = ":"
-		val sets = listOf(AT_SYMBOL, COMMA, DOUBLE_COLON, SINGLE_COLON)
+		// generics
+		const val LESS_THAN = "<"
+		const val LARGER_THAN = ">"
+		// braces
+		const val BRACE_L = "("
+		const val BRACE_R = ")"
+		const val BRACKET_L = "{"
+		const val BRACKET_R = "}"
+		const val SQUARE_BRACKET_L = "["
+		const val SQUARE_BRACKET_R = "]"
 	}
 
 	object KeyWord {
-		val sets = listOf("class", "fun")
+		val sets by lazy {
+			listOf("class", "fun")
+		}
 	}
 
 	object Modifiers {
-		val sets = File("kotlinModifier.txt").readLines()
+		val sets by lazy {
+			File("kotlinModifier.txt").readLines()
+		}
 	}
 
 }
