@@ -1,12 +1,11 @@
 package cn.wjdghd
 
-import com.github.zxj5470.bugktdoc.*
+import com.github.zxj5470.bugktdoc.util.*
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.components.ApplicationComponent
-import com.intellij.util.containers.Stack
 
 /**
  * @since 0.1.0

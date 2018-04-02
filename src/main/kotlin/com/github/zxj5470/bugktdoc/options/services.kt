@@ -1,7 +1,9 @@
 package com.github.zxj5470.bugktdoc.options
 
-import com.github.zxj5470.bugktdoc.globalSettings
-import com.intellij.openapi.components.*
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.State
+import com.intellij.openapi.components.Storage
+import com.intellij.openapi.components.StorageScheme
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 /**
@@ -31,6 +33,5 @@ class BugKtDocGlobalSettingsImpl :
 	override fun getState(): BugKtDocSettings? = XmlSerializerUtil.createCopy(settings)
 	override fun loadState(state: BugKtDocSettings) {
 		XmlSerializerUtil.copyBean(state, settings)
-		globalSettings.useBugKtDoc = settings.useBugKtDoc
 	}
 }

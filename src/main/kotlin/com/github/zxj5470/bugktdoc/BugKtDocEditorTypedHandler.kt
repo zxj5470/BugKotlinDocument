@@ -1,5 +1,6 @@
 package com.github.zxj5470.bugktdoc
 
+import com.github.zxj5470.bugktdoc.util.*
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
