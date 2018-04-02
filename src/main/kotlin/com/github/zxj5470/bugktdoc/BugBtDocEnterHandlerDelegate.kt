@@ -15,9 +15,6 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 
 	var canGenerateDocument = false
 
-	// Temp solution. FIXME
-	var indentString = ""
-
 	/**
 	 *  after. so the `currentLine` is different from [preprocessEnter]
 	 */
@@ -25,6 +22,7 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 		if (pluginActive && canGenerateDocument) {
 			editor.run {
 				val offset = caretModel.currentCaret.offset
+				val indentString = getCurrentLine(editor).beginIndents()
 				val stringFac = genDocString(getFunctionNextLine(editor), indentString)
 				ApplicationManager.getApplication().runWriteAction {
 					CommandProcessor.getInstance().runUndoTransparentAction {
@@ -42,7 +40,6 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 			return EnterHandlerDelegate.Result.Continue
 
 		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !getNextLine(editor).trim().startsWith("*")
-		if (canGenerateDocument) indentString = getTextAfter(editor, 1).beginIndents()
 		return EnterHandlerDelegate.Result.Continue
 	}
 }
