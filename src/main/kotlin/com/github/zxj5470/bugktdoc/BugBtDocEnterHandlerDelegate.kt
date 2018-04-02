@@ -21,7 +21,7 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 	 *  after. so the `currentLine` is different from [preprocessEnter]
 	 */
 	override fun postProcessEnter(psiFile: PsiFile, editor: Editor, context: DataContext): EnterHandlerDelegate.Result {
-		if (canGenerateDocument) {
+		if (pluginActive && canGenerateDocument) {
 			editor.run {
 				val offset = caretModel.currentCaret.offset
 				val stringFac = genDocString(getFunctionNextLine(editor), indentString)
@@ -37,6 +37,9 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 
 	// when pressing (before invoke)
 	override fun preprocessEnter(file: PsiFile, editor: Editor, caretOffset: Ref<Int>, caretAdvance: Ref<Int>, dataContext: DataContext, originalHandler: EditorActionHandler?): EnterHandlerDelegate.Result {
+		if (!pluginActive)
+			return EnterHandlerDelegate.Result.Continue
+
 		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !getNextLine(editor).trim().startsWith("*")
 		if (canGenerateDocument) indentString = getTextAfter(editor, 1).beginIndents()
 		return EnterHandlerDelegate.Result.Continue

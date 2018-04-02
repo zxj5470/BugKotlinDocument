@@ -1,5 +1,6 @@
 package com.github.zxj5470.bugktdoc.options
 
+import com.github.zxj5470.bugktdoc.globalSettings
 import com.intellij.openapi.components.*
 import com.intellij.util.xmlb.XmlSerializerUtil
 
@@ -9,8 +10,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil
  */
 
 data class BugKtDocSettings(
-	var alwaysShowReturn: Boolean = true,
-	var firstTimeToShowPopup: Boolean = false
+	var useBugKtDoc: Boolean = true,
+	var theFirstTile: Boolean = true
 )
 
 interface BugKtDocGlobalSettings {
@@ -25,9 +26,11 @@ interface BugKtDocGlobalSettings {
 	storages = [Storage(file = "BugKtDocConfig.xml", scheme = StorageScheme.DIRECTORY_BASED)])
 class BugKtDocGlobalSettingsImpl :
 	BugKtDocGlobalSettings, PersistentStateComponent<BugKtDocSettings> {
-	override val settings = BugKtDocSettings(false, true)
+
+	override val settings = BugKtDocSettings(true)
 	override fun getState(): BugKtDocSettings? = XmlSerializerUtil.createCopy(settings)
 	override fun loadState(state: BugKtDocSettings) {
 		XmlSerializerUtil.copyBean(state, settings)
+		globalSettings.useBugKtDoc = settings.useBugKtDoc
 	}
 }

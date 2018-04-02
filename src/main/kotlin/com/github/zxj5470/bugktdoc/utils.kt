@@ -2,7 +2,11 @@ package com.github.zxj5470.bugktdoc
 
 import cn.wjdghd.entity.splitWithParams
 import com.github.zxj5470.bugktdoc.constants.*
+import com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings
+import com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettingsImpl
 import com.intellij.CommonBundle
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.util.containers.Stack
@@ -149,8 +153,15 @@ fun getFunctionNextLine(editor: Editor): String {
 	return functionHead
 }
 
-val isAlwaysShow
-	get() = true
+val isTheFirstTime
+	get() = globalSettings.theFirstTile
+
+
+val globalSettings
+	get() = ServiceManager.getService(BugKtDocGlobalSettings::class.java).settings
+
+val pluginActive
+	get() = globalSettings.useBugKtDoc
 
 /**
  * @ref https://github.com/ice1000/julia-intellij/blob/master/src/org/ice1000/julia/lang/julia-infos.kt
@@ -165,4 +176,4 @@ object BugKtDocBundle {
 		CommonBundle.message(bundle, key, *params)
 }
 
-inline fun <reified T> Any.castTo(block: T.() -> Unit) = (this as? T)?.apply { block(); return this }
+inline fun <reified T> Any.castTo(block: T.() -> Unit) = (this as? T)?.apply { block() }

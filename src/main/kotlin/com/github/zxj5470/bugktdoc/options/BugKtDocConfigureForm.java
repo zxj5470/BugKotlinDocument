@@ -6,4 +6,5 @@ import javax.swing.*;
 
 public abstract class BugKtDocConfigureForm implements Configurable {
 	protected JPanel mainPanel;
+	protected JCheckBox useBugKtDoc;
 }
