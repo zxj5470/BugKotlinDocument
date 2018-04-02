@@ -4,7 +4,7 @@
 - It still remains lots of bugs and most of works are not completed and finished...Keep fighting.
 - I will finish this after `julia-intellij` plugin
 
-[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg)](https://plugins.jetbrains.com/plugin/10413-julia)
+[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9781-bugkotlindocument.svg)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 
 [issues](https://github.com/zxj5470/BugKotlinDocument/issues)
@@ -21,8 +21,9 @@ import javax.servlet.http.*
          super.doPost(req, resp)
      }
 ```
-#### 2.then press the key (default is Alt+N)
-#### 3.and you will see the document.
+#### <del>2.then press the key (default is Alt+N)</del>
+#### 2. Now Just Press Enter after v0.2.0
+#### 3. and you will see the document.
 ```kotlin
 package cn.wjdghd
 import javax.servlet.http.*
