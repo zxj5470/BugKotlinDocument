@@ -4,8 +4,8 @@ import com.intellij.openapi.components.*
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 /**
- * @author: zxj5470
- * @date: 2018/4/2
+ * @author zxj5470
+ * @date 2018/4/2
  */
 
 data class BugKtDocSettings(

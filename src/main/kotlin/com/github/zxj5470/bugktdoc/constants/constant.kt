@@ -1,9 +1,9 @@
 package com.github.zxj5470.bugktdoc.constants
 
 /**
- * @author: zxj5470
+ * @author zxj5470
  * @since 0.2.0
- * @date: 2018/4/1
+ * @date 2018/4/1
  */
 object BugKtDocControl {
 	const val END = " */"

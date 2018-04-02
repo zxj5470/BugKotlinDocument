@@ -1,6 +1,5 @@
 package com.github.zxj5470.bugktdoc
 
-import cn.wjdghd.entity.beginIndents
 import cn.wjdghd.entity.splitWithParams
 import cn.wjdghd.getFunctionDeclarationLine
 import com.github.zxj5470.bugktdoc.constants.*

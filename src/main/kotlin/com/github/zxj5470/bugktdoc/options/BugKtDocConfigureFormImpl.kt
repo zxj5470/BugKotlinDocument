@@ -1,8 +1,8 @@
 package com.github.zxj5470.bugktdoc.options
 
 /**
- * @author: zxj5470
- * @date: 2018/4/2
+ * @author zxj5470
+ * @date 2018/4/2
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 	override fun isModified(): Boolean {
