@@ -1,7 +1,6 @@
 package com.github.zxj5470.bugktdoc
 
 import cn.wjdghd.entity.splitWithParams
-import cn.wjdghd.getFunctionDeclarationLine
 import com.github.zxj5470.bugktdoc.constants.*
 import com.intellij.CommonBundle
 import com.intellij.openapi.editor.Editor
@@ -14,25 +13,25 @@ import java.util.*
 /**
  * @author zxj5470
  * @date 2018/4/1
- */
-
-/**
  * @since 0.2.0
  */
-fun editorNextLine(editor: Editor): String = getLine(editor, 1)
+fun getCurrentLine(editor: Editor): String = getLine(editor)
+
+fun getNextLine(editor: Editor): String = getLine(editor, 1)
 
 private fun getLine(editor: Editor, afterCurrentLine: Int = 0): String {
 	editor.run {
-		val caretOffset = caretModel.offset
-		val lineNum = document.getLineNumber(caretOffset) + afterCurrentLine
-		if (lineNum > document.lineCount) return ""
-		val lineStartOffset = document.getLineStartOffset(lineNum)
-		val lineEndOffset = document.getLineEndOffset(lineNum)
-		return document.getText(TextRange(lineStartOffset, lineEndOffset))
+		lineNumber(afterCurrentLine).run {
+			return if (this > document.lineCount) ""
+			else document.let {
+				val lineStartOffset = it.getLineStartOffset(this)
+				val lineEndOffset = it.getLineEndOffset(this)
+				it.getText(TextRange(lineStartOffset, lineEndOffset))
+			}
+		}
 	}
 }
 
-fun getCurrentLine(editor: Editor): String = getLine(editor)
 
 /**
  * @param editor Editor :
@@ -42,16 +41,21 @@ fun getCurrentLine(editor: Editor): String = getLine(editor)
  */
 fun getTextAfter(editor: Editor, afterCurrentLine: Int = 0): String {
 	editor.run {
-		val caretOffset = caretModel.offset
-		val lineNum = document.getLineNumber(caretOffset) + afterCurrentLine
+		val lineNum = lineNumber(afterCurrentLine)
 		if (lineNum > document.lineCount) return ""
 		val lineStartOffset = document.getLineStartOffset(lineNum)
 		return document.text.substring(lineStartOffset)
 	}
 }
 
+private fun Editor.lineNumber(afterCurrentLine: Int): Int {
+	val caretOffset = caretModel.offset
+	return document.getLineNumber(caretOffset) + afterCurrentLine
+}
+
 /**
  * @since 0.2.0
+ * @deprecated byAltN false
  */
 fun genDocString(realNextLine: String, indent: String = "", byAltN: Boolean = false): String = buildString {
 	append(BugKtDocControl.LF) //	`LF` is:	/**   \n
@@ -74,6 +78,40 @@ fun genDocString(realNextLine: String, indent: String = "", byAltN: Boolean = fa
 		append(indent)
 		append(BugKtDocControl.END)
 	}
+}
+
+
+fun getFunctionDeclarationLine(str: String): String {
+	val charStack = Stack<Char>()
+	val index = str.indexOf('(')
+	val s = str.substring(index)
+	var top: Char
+	var indexEnd = 0
+	for (i in s.indices) {
+		top = if (charStack.empty()) ' ' else charStack.peek()
+		when (s[i]) {
+			'\'' -> {
+				if (top != '\'') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'\"' -> {
+				if (top != '\"') charStack.push(s[i])
+				else charStack.pop()
+			}
+			'(', '{', '<' -> charStack.push(s[i])
+			')' -> if (top == '(') charStack.pop()
+			'}' -> if (top == '{') charStack.pop()
+			'>' -> if (top == '<') charStack.pop()
+		}
+		if (charStack.isEmpty()) {
+			if (s[i] == ')') {
+				indexEnd = i
+				break
+			}
+		}
+	}
+	val functionHead = s.substring(1, indexEnd)
+	return functionHead
 }
 
 /**
@@ -126,3 +164,5 @@ object BugKtDocBundle {
 	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
 		CommonBundle.message(bundle, key, *params)
 }
+
+inline fun <reified T> Any.castTo(block: T.() -> Unit) = (this as? T)?.apply { block(); return this }

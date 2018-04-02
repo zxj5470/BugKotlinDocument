@@ -8,10 +8,12 @@ import java.util.*
  * @since 0.2.0
  */
 fun String.beginIndents(): String = buildString {
-	for (it in this@beginIndents) {
-		if (it in " \t") {
-			append(it)
-		} else break
+	run breaking@{
+		this@beginIndents.forEach {
+			if (it in " \t") {
+				it.let(::append)
+			} else return@breaking
+		}
 	}
 }
 

@@ -16,6 +16,7 @@ object BugKtDocControl {
 object BugKtDocDecoration {
 	const val AUTHOR = "@author"
 	const val PARAM = "@param"
+	const val PROPERTY = "@property"
 	const val RECEIVER = "@receiver"
 	const val RETURN = "@return"
 	const val THROWS = "@throws"

@@ -36,36 +36,3 @@ class MainComponent : ApplicationComponent {
 		}
 	}
 }
-
-fun getFunctionDeclarationLine(str: String): String {
-	val charStack = Stack<Char>()
-	val index = str.indexOf('(')
-	val s = str.substring(index)
-	var top: Char
-	var indexEnd = 0
-	for (i in s.indices) {
-		top = if (charStack.empty()) ' ' else charStack.peek()
-		when (s[i]) {
-			'\'' -> {
-				if (top != '\'') charStack.push(s[i])
-				else charStack.pop()
-			}
-			'\"' -> {
-				if (top != '\"') charStack.push(s[i])
-				else charStack.pop()
-			}
-			'(', '{', '<' -> charStack.push(s[i])
-			')' -> if (top == '(') charStack.pop()
-			'}' -> if (top == '{') charStack.pop()
-			'>' -> if (top == '<') charStack.pop()
-		}
-		if (charStack.isEmpty()) {
-			if (s[i] == ')') {
-				indexEnd = i
-				break
-			}
-		}
-	}
-	val functionHead = s.substring(1, indexEnd)
-	return functionHead
-}

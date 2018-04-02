@@ -37,7 +37,7 @@ class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 
 	// when pressing (before invoke)
 	override fun preprocessEnter(file: PsiFile, editor: Editor, caretOffset: Ref<Int>, caretAdvance: Ref<Int>, dataContext: DataContext, originalHandler: EditorActionHandler?): EnterHandlerDelegate.Result {
-		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !editorNextLine(editor).trim().startsWith("*")
+		canGenerateDocument = getCurrentLine(editor).endsWith("/**") && !getNextLine(editor).trim().startsWith("*")
 		if (canGenerateDocument) indentString = getTextAfter(editor, 1).beginIndents()
 		return EnterHandlerDelegate.Result.Continue
 	}
