@@ -10,7 +10,7 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 
-class BugKotlinEnterHandlerDelegate : EnterHandlerDelegate {
+class BugBtDocEnterHandlerDelegate : EnterHandlerDelegate {
 
 	var canGenerateDocument = false
 

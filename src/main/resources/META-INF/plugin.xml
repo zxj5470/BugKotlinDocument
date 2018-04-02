@@ -14,11 +14,15 @@
 	<idea-version since-build="139"/>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<enterHandlerDelegate implementation="com.github.zxj5470.bugktdoc.BugKotlinEnterHandlerDelegate"/>
+		<enterHandlerDelegate implementation="com.github.zxj5470.bugktdoc.BugBtDocEnterHandlerDelegate"/>
 		<typedHandler implementation="com.github.zxj5470.bugktdoc.BugKtDocEditorTypedHandler"/>
-		<!--<projectConfigurable groupId="editor"-->
-		<!--id="com.github.zxj5470.bugktdoc.projectConfigurable"-->
-		<!--instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>-->
+		<projectConfigurable groupId="editor"
+									id="com.github.zxj5470.bugktdoc.projectConfigurable"
+									instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>
+		<applicationService
+			serviceInterface="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings"
+			serviceImplementation="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
+
 	</extensions>
 	<depends>com.intellij.modules.lang</depends>
 </idea-plugin>
