@@ -1,5 +1,6 @@
 package com.github.zxj5470.bugktdoc.options
 
+import com.github.zxj5470.bugktdoc.BugKtDocBundle
 import com.github.zxj5470.bugktdoc.globalSettings
 
 /**
@@ -15,7 +16,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 		return true
 	}
 
-	override fun getDisplayName() = "BugKotlinDocument"
+	override fun getDisplayName() = BugKtDocBundle.message("bugktdoc.settings.title")
 
 	override fun apply() {
 		globalSettings.useBugKtDoc = useBugKtDoc.isSelected

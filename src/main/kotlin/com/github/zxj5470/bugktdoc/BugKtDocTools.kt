@@ -16,6 +16,9 @@ val isTheFirstTime
 val pluginActive
 	get() = globalSettings.useBugKtDoc
 
+val isAlwaysShowUnitReturnType
+	get() = globalSettings.alwaysShowUnitReturnType
+
 /**
  * @ref https://github.com/ice1000/julia-intellij/blob/master/src/org/ice1000/julia/lang/julia-infos.kt
  * class [JuliaBundle]

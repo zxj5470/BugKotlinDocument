@@ -8,10 +8,12 @@ import com.intellij.notification.Notifications
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
+import org.jetbrains.kotlin.psi.KtFile
 
 class BugKtDocEditorTypedHandler : TypedHandlerDelegate() {
 	override fun charTyped(c: Char, project: Project?, editor: Editor, file: PsiFile): Result {
-		if (isTheFirstTime && c == '*' && getCurrentLine(editor).endsWith("/**")) {
+		if (file !is KtFile) return super.charTyped(c, project, editor, file)
+		if (isTheFirstTime && c == '*' && getCurrentLineToCurrentChar(editor).endsWith("/**")) {
 			Notifications.Bus.notify(Notification("com.github.zxj5470.bugktdoc.notification",
 				BugKtDocBundle.message("bugktdoc.notation.title"),
 				BugKtDocBundle.message("bugktdoc.notation.content"),
