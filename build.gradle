@@ -25,6 +25,10 @@ allprojects {
 	}
 }
 
+patchPluginXml {
+	pluginDescription(file("src/main/resources/META-INF/description.html").text)
+}
+
 group 'com.github.zxj5470'
 version plugin_version
 
@@ -40,6 +44,7 @@ sourceSets {
 	main.java {
 		srcDirs += ['src/main/java','src/main/kotlin']
 	}
+
 }
 
 compileKotlin {
