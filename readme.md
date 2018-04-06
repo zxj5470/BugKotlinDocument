@@ -10,7 +10,9 @@
 [issues](https://github.com/zxj5470/BugKotlinDocument/issues)
 
 # Usage 
-Just Press Enter Key like in Java File !!!
+
+**Just press Enter key like in Java File !!!**
+
 ![gif](images/pic01.gif) 
 
 # Install
