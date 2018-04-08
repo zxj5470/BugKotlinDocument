@@ -18,7 +18,9 @@
 # Install
 Download the release page then install the plugin.
 
-`Preference -> Plugin -> Install plugin from disk` in Idea/Android Studio
+`Preference -> Plugin ->`
+
+- `Install plugin from disk` in Idea/Android Studio
 then enjoy Bugs!!!!
 
-Or pending until (around Apr 11, 2018)
+- Or `browse repositories` and search `Kotlin`/`Bug`/`Docu` is OK.
