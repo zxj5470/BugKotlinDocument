@@ -1,8 +1,7 @@
 # Plugin for IntelliJ IDEA in Kotlin File
 
-- Generate notation in Kotlin file.
-- It still remains lots of bugs and most of works are not completed and finished...Keep fighting.
-- I will finish this after `julia-intellij` plugin
+- Generate document comments for Kotlin file.
+- Just generate it as Java do.
 
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
