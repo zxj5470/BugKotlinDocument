@@ -10,6 +10,7 @@ import com.github.zxj5470.bugktdoc.globalSettings
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 	init {
 		useBugKtDoc.isSelected = globalSettings.useBugKtDoc
+		showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
 	}
 
 	override fun isModified(): Boolean {
@@ -20,6 +21,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 
 	override fun apply() {
 		globalSettings.useBugKtDoc = useBugKtDoc.isSelected
+		globalSettings.alwaysShowUnitReturnType = showUnitTypeDefault.isSelected
 	}
 
 	override fun createComponent() = mainPanel

@@ -70,6 +70,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					append(LF)
 				} else {
 					val type = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(owner).unwrap().toString()
+					println(type)
 					if (isAlwaysShowUnitReturnType || type != "Unit") {
 						appendDecorate(RETURN)
 						append(type)
@@ -99,7 +100,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					val param = it.nameIdentifier?.text
 					val type = it.typeReference?.typeElement?.text
 					appendDecorate(PROPERTY)
-					// add a space before `param` and after is no used
+					// add a space before or after is no used
 					append("$param $type")
 					append(LF)
 				}

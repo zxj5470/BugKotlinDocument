@@ -1,5 +1,5 @@
 <idea-plugin>
-	<id>com.github.zxj5470.bugktdoc</id>
+	<id>cn.wjdghd.unique.plugin.id</id>
 	<name>BugKotlinDocument</name>
 	<version>0.2.0</version>
 	<vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument">zxj5470</vendor>
