@@ -9,7 +9,6 @@ import com.github.zxj5470.bugktdoc.globalSettings
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 	init {
-		useBugKtDoc.isSelected = globalSettings.useBugKtDoc
 		useBugKtDoc.addActionListener {
 			if (useBugKtDoc.isSelected) {
 				showUnitTypeDefault.isEnabled = true
@@ -21,6 +20,11 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 				showConstructor.isEnabled = false
 			}
 		}
+		loadSettings()
+	}
+
+	private fun loadSettings() {
+		useBugKtDoc.isSelected = globalSettings.useBugKtDoc
 		showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
 		showClassFieldProperty.isSelected = globalSettings.alwaysShowClassFieldProperty
 		showConstructor.isSelected = globalSettings.alwaysShowConstructor
@@ -28,6 +32,14 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 
 	override fun isModified(): Boolean {
 		return true
+	}
+
+	override fun reset() {
+		globalSettings.useBugKtDoc = true
+		globalSettings.alwaysShowUnitReturnType = false
+		globalSettings.alwaysShowClassFieldProperty = true
+		globalSettings.alwaysShowConstructor = true
+		loadSettings()
 	}
 
 	override fun getDisplayName() = BugKtDocBundle.message("bugktdoc.settings.title")
