@@ -6,8 +6,6 @@
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 
-[issues](https://github.com/zxj5470/BugKotlinDocument/issues)
-
 # Usage 
 
 **Just press Enter key like in Java File !!!**
@@ -16,6 +14,12 @@
 
 # Screenshots
 ![png](images/pic02.png) 
+
+## Settings
+
+**Settings/Preferences** | **Editor** | **BugKotlinDocument**
+
+![png](images/pic03.png) 
 
 # Install
 Download the release page then install the plugin.
