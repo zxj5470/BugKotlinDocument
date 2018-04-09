@@ -1,6 +1,7 @@
 package com.github.zxj5470.bugktdoc
 
 import com.github.zxj5470.bugktdoc.constants.BugKtDocControl.LF
+import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.CONSTRUCTOR
 import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.PARAM
 import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.PROPERTY
 import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.RECEIVER
@@ -18,6 +19,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.containers.isNullOrEmpty
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.psi.*
@@ -28,9 +30,14 @@ import org.jetbrains.kotlin.psi.*
  * @date 2018/4/6
  */
 class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationProvider {
+	/**
+	 *
+	 * @param startPoint PsiElement
+	 * @return Pair<PsiElement, PsiComment>?
+	 */
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
 		var current = startPoint
-		while (current != null) {
+		while (true) {
 			if (current is KDocImpl) {
 				return Pair.create(if (current is PsiField) current.modifierList else current, current)
 			} else if (PackageUtil.isPackageInfoFile(current)) {
@@ -38,7 +45,6 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			}
 			current = current.parent
 		}
-		return null
 	}
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String? {
@@ -54,29 +60,32 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					append(it.text)
 					append(LF)
 				}
+
 				// @param
 				owner.valueParameters.forEach {
 					val param = it.nameIdentifier?.text
-					val type = it.typeReference?.typeElement?.text
+					val type = it.itsType
 					appendDecorate(PARAM)
 					// add a space before `param` and after is no used
 					append("$param $type")
 					append(LF)
 				}
+
 				// @return
 				if (owner.hasDeclaredReturnType()) {
 					appendDecorate(RETURN)
 					append(owner.typeReference?.typeElement?.text)
 					append(LF)
 				} else {
-					val type = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(owner).unwrap().toString()
-					println(type)
-					if (isAlwaysShowUnitReturnType || type != "Unit") {
-						appendDecorate(RETURN)
-						append(type)
-						append(LF)
+					owner.itsType.let {
+						if (isAlwaysShowUnitReturnType || it != "Unit") {
+							appendDecorate(RETURN)
+							append(it)
+							append(LF)
+						}
 					}
 				}
+
 				// @throws
 				PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
 					.firstOrNull { it.calleeExpression?.text == "Throws" }
@@ -90,27 +99,69 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					}
 				}
 			}
+
 			is KtClass -> buildString {
 				owner.typeParameters.forEach {
 					appendDecorate(PARAM)
 					append(it.text)
 					append(LF)
 				}
+
+				// order: 1. primary Parameters -> @property
 				owner.primaryConstructorParameters.forEach {
+					// is property
+					if (it.hasValOrVar()) {
+						val param = it.nameIdentifier?.text
+						val type = it.itsType
+						if (!param.isNullOrEmpty() && !type.isEmpty()) {
+							appendDecorate(PROPERTY)
+							// add a space before or after is no used
+							append("$param $type")
+							append(LF)
+						}
+					}
+				}
+
+				// order: 2. class fields -> @property
+				if (isAlwaysShowClassFieldProperty)
+					owner.getProperties().forEach {
+						val param = it.nameIdentifier?.text
+						val type = it.itsType
+						if (!param.isNullOrEmpty()) {
+							appendDecorate(PROPERTY)
+							// add a space before or after is no used
+							append("$param $type")
+							append(LF)
+						}
+					}
+
+				// @constructor
+				if (owner.hasPrimaryConstructor() && isAlwaysShowConstructor) {
+					// empty class
+					if (!owner.getPrimaryConstructorParameterList()?.parameters.isNullOrEmpty()) {
+						appendDecorate(CONSTRUCTOR)
+						append(LF)
+					}
+				}
+			}
+			is KtConstructor<*> -> buildString {
+
+				// @param
+				owner.getValueParameters().forEach {
 					val param = it.nameIdentifier?.text
-					val type = it.typeReference?.typeElement?.text
-					appendDecorate(PROPERTY)
-					// add a space before or after is no used
-					append("$param $type")
+					val type = it.itsType
+					if (!param.isNullOrEmpty() && !type.isEmpty()) {
+						appendDecorate(PARAM)
+						append("$param $type")
+						append(LF)
+					}
+				}
+
+				// @constructor
+				if (isAlwaysShowConstructor) {
+					appendDecorate(CONSTRUCTOR)
 					append(LF)
 				}
-				/*
-				owner.getProperties().forEach {
-					appendDecorate(PROPERTY)
-					append(it.nameAsSafeName)
-					append(LF)
-				}
-				*/
 			}
 			else -> ""
 		}

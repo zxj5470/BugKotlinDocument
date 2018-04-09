@@ -14,7 +14,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 data class BugKtDocSettings(
 	var useBugKtDoc: Boolean = true,
 	var theFirstTile: Boolean = true,
-	var alwaysShowUnitReturnType: Boolean = false
+	var alwaysShowUnitReturnType: Boolean = false,
+	var alwaysShowClassFieldProperty: Boolean = true,
+	var alwaysShowConstructor: Boolean = true
 )
 
 interface BugKtDocGlobalSettings {

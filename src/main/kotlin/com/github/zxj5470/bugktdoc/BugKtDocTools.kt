@@ -5,6 +5,8 @@ import com.intellij.CommonBundle
 import com.intellij.openapi.components.ServiceManager
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
+import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
+import org.jetbrains.kotlin.psi.KtCallableDeclaration
 import java.util.*
 
 val globalSettings
@@ -19,6 +21,12 @@ val pluginActive
 val isAlwaysShowUnitReturnType
 	get() = globalSettings.alwaysShowUnitReturnType
 
+val isAlwaysShowClassFieldProperty
+	get() = globalSettings.alwaysShowClassFieldProperty
+
+val isAlwaysShowConstructor
+	get() = globalSettings.alwaysShowConstructor
+
 /**
  * @ref https://github.com/ice1000/julia-intellij/blob/master/src/org/ice1000/julia/lang/julia-infos.kt
  * class [JuliaBundle]
@@ -31,3 +39,6 @@ object BugKtDocBundle {
 	fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
 		CommonBundle.message(bundle, key, *params)
 }
+
+inline val KtCallableDeclaration.itsType
+	get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).unwrap().toString()

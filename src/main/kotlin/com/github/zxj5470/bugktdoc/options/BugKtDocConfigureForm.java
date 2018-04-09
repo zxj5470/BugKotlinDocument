@@ -8,4 +8,6 @@ public abstract class BugKtDocConfigureForm implements Configurable {
 	protected JPanel mainPanel;
 	protected JCheckBox useBugKtDoc;
 	protected JCheckBox showUnitTypeDefault;
+	protected JCheckBox showClassFieldProperty;
+	protected JCheckBox showConstructor;
 }
