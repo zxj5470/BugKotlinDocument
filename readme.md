@@ -1,4 +1,5 @@
-# Plugin for IntelliJ IDEA in Kotlin File
+# BugKotlinDocument
+Plugin for IntelliJ IDEA / Android Studio / CLion.
 
 - Generate document comments for Kotlin file.
 - Just generate it as Java do.
@@ -33,59 +34,6 @@ then enjoy Bugs!!!!
 
 # Samples
 
-- **vararg**
-
-```kotlin
-/**
- *
- * @param args Array<out String>
- */
-fun main(vararg args: String) {
-
-}
-```
-
-
-- **function**
-
-```kotlin
-/**
- *
- * @param i Int
- * @param j Int
- * @return String
- */
-fun twoParamsWithReturn(i: Int, j: Int): String {
-	return "${i + j}"
-}
-```
-
-- **class constructors**
-
-```kotlin
-/**
- *
- * @param T
- * @property strings Array<out String>
- * @property aInt Int
- * @property bInt Int
- * @constructor
- */
-class A<T>(t: String, private vararg val strings: String) {
-	/**
-	 *
-	 * @param name String
-	 * @constructor
-	 */
-	constructor(name: String) : this(name, "") {
-
-	}
-
-	private val aInt = 0
-	val bInt = 1
-}
-```
-
 more samples:
 
 [main.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/main.kt)
@@ -93,3 +41,12 @@ more samples:
 [functions.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/functions.kt)
 
 [constructors.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/constructors.kt)
+
+# Projects use this plugin.
+
+- [ice1000/dev-kt](https://github.com/ice1000/dev-kt)
+A DevCpp-like cross-platform Kotlin IDE features in lightweight.
+- [ice1000/julia-intellij](https://github.com/ice1000/julia-intellij)
+Julia Plugin for IntelliJ IDEA
+- [zxj5470/ktlext](https://github.com/zxj5470/ktlext)
+A useless library for Kotlin extensions. 
