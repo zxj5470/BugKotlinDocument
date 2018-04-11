@@ -3,6 +3,7 @@ package com.github.zxj5470.bugktdoc
 import com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings
 import com.intellij.CommonBundle
 import com.intellij.openapi.components.ServiceManager
+import com.intellij.util.PlatformUtils
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import org.jetbrains.kotlin.idea.intentions.SpecifyTypeExplicitlyIntention
@@ -42,3 +43,6 @@ object BugKtDocBundle {
 
 inline val KtCallableDeclaration.itsType
 	get() = SpecifyTypeExplicitlyIntention.getTypeForDeclaration(this).unwrap().toString()
+
+val isKotlinNative
+	get() = PlatformUtils.isAppCode() || PlatformUtils.isCLion()

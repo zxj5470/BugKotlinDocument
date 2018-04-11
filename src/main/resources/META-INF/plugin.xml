@@ -5,6 +5,7 @@
 	<vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument">zxj5470</vendor>
 	<depends optional="true">org.jetbrains.kotlin</depends>
 	<depends optional="true">org.jetbrains.kotlin.native.clion</depends>
+	<depends optional="true">org.jetbrains.kotlin.native.appcode</depends>
 	<depends>com.intellij.modules.lang</depends>
 
 	<description>To generate Kotlin document comment in Kotlin File</description>

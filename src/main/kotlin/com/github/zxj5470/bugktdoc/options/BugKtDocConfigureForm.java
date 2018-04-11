@@ -6,14 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 
 public abstract class BugKtDocConfigureForm implements Configurable {
-	protected @NotNull
-	JPanel mainPanel;
-	protected @NotNull
-	JCheckBox useBugKtDoc;
-	protected @NotNull
-	JCheckBox showUnitTypeDefault;
-	protected @NotNull
-	JCheckBox showClassFieldProperty;
-	protected @NotNull
-	JCheckBox showConstructor;
+	protected JPanel mainPanel;
+	protected JCheckBox useBugKtDoc;
+	protected JCheckBox showUnitTypeDefault;
+	protected JCheckBox showClassFieldProperty;
+	protected JCheckBox showConstructor;
 }

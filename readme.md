@@ -1,5 +1,6 @@
 # BugKotlinDocument
-Plugin for IntelliJ IDEA / Android Studio / CLion.
+Plugin for **IntelliJ IDEA** / **Android Studio** / **CLion**.
+And now **AppCode** is available!
 
 - Generate document comments for Kotlin file.
 - Just generate it as Java do.
@@ -15,6 +16,9 @@ Plugin for IntelliJ IDEA / Android Studio / CLion.
 
 # Screenshots
 ![png](images/pic02.png) 
+
+## AppCode and CLion support!
+ ![png](images/pic04.png) 
 
 ## Settings
 

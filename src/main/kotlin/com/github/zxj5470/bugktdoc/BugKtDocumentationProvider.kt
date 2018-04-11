@@ -31,12 +31,8 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
 		var current = startPoint
 		while (true) {
-			if (PlatformUtils.isCLion()) {
-				if (current is KDocImpl) {
-					return Pair.create(if (current is PsiField) current.modifierList else current, current)
-				} else if (PackageUtil.isPackageInfoFile(current)) {
-					return Pair.create(current, getPackageInfoComment(current))
-				}
+			if (current is KDocImpl) {
+				return Pair.create(if (current is PsiField) current.modifierList else current, current)
 			} else if (PackageUtil.isPackageInfoFile(current)) {
 				return Pair.create(current, getPackageInfoComment(current))
 			}
@@ -168,5 +164,5 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
-		if (!PlatformUtils.isCLion()) (contextElement as? KDocImpl)?.getOwner()?.docComment else contextElement
+		if (!isKotlinNative) (contextElement as? KDocImpl)?.getOwner()?.docComment else contextElement
 }

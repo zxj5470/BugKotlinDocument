@@ -1,44 +1,73 @@
-@file:Suppress("SENSELESS_COMPARISON")
-
 package com.github.zxj5470.bugktdoc.options
 
 import com.github.zxj5470.bugktdoc.BugKtDocBundle
 import com.github.zxj5470.bugktdoc.globalSettings
+import com.github.zxj5470.bugktdoc.isKotlinNative
+import com.github.zxj5470.bugktdoc.util.*
 import com.intellij.ui.layout.verticalPanel
+import com.intellij.util.PlatformUtils
 import javax.swing.JCheckBox
+import javax.swing.JPanel
 
 /**
  * @author zxj5470
  * @date 2018/4/2
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
+	private val thisPanel: JPanel
+		get() {
+			// what the hell it is in CLion?
+			// mainPanel is null in CLion.
+			if (mainPanel == null) {
+				mainPanel = verticalPanel { }
+				useBugKtDoc = JCheckBox(BugKtDocBundle.message("bugktdoc.options.use"))
+					.apply { mainPanel.add(this) }
+				showUnitTypeDefault = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.unit"))
+					.apply { mainPanel.add(this) }
+				showClassFieldProperty = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.property"))
+					.apply { mainPanel.add(this) }
+				showConstructor = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.constructor"))
+					.apply { mainPanel.add(this) }
+			}
+			useBugKtDoc.isSelected = globalSettings.useBugKtDoc
+			showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
+			showClassFieldProperty.isSelected = globalSettings.alwaysShowClassFieldProperty
+			showConstructor.isSelected = globalSettings.alwaysShowConstructor
+			return mainPanel
+		}
+
 	init {
-		// what the hell it is in CLion?
-		// mainPanel is null in CLion.
-		if (mainPanel == null) {
-			mainPanel = verticalPanel { }
-			useBugKtDoc = JCheckBox(BugKtDocBundle.message("bugktdoc.options.use"))
-				.apply { mainPanel.add(this) }
-			showUnitTypeDefault = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.unit"))
-				.apply { mainPanel.add(this) }
-			showClassFieldProperty = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.property"))
-				.apply { mainPanel.add(this) }
-			showConstructor = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.constructor"))
-				.apply { mainPanel.add(this) }
+		if (isKotlinNative) {
+			thisPanel
 		}
-		useBugKtDoc.addActionListener {
-			showUnitTypeDefault.isEnabled = !showUnitTypeDefault.isEnabled
-			showClassFieldProperty.isEnabled = !showClassFieldProperty.isEnabled
-			showConstructor.isEnabled = !showConstructor.isEnabled
-		}
-		loadSettings()
+		addSwitchListener()
+		initListener()
 	}
 
-	private fun loadSettings() {
-		useBugKtDoc.isSelected = globalSettings.useBugKtDoc
-		showUnitTypeDefault.isSelected = globalSettings.alwaysShowUnitReturnType
-		showClassFieldProperty.isSelected = globalSettings.alwaysShowClassFieldProperty
-		showConstructor.isSelected = globalSettings.alwaysShowConstructor
+	private fun addSwitchListener() {
+		useBugKtDoc.addActionListener {
+			useBugKtDoc.isSelected {
+				showUnitTypeDefault.isEnabled = true
+				showClassFieldProperty.isEnabled = true
+				showConstructor.isEnabled = true
+			}.orElse {
+				showUnitTypeDefault.isEnabled = false
+				showClassFieldProperty.isEnabled = false
+				showConstructor.isEnabled = false
+			}
+		}
+	}
+
+	private fun initListener() {
+		useBugKtDoc.isSelected {
+			showUnitTypeDefault.isEnabled = true
+			showClassFieldProperty.isEnabled = true
+			showConstructor.isEnabled = true
+		}.orElse {
+			showUnitTypeDefault.isEnabled = false
+			showClassFieldProperty.isEnabled = false
+			showConstructor.isEnabled = false
+		}
 	}
 
 	override fun isModified(): Boolean {
@@ -50,7 +79,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 		globalSettings.alwaysShowUnitReturnType = false
 		globalSettings.alwaysShowClassFieldProperty = true
 		globalSettings.alwaysShowConstructor = true
-		loadSettings()
+		initListener()
 	}
 
 	override fun getDisplayName() = BugKtDocBundle.message("bugktdoc.settings.title")
@@ -62,6 +91,5 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 		globalSettings.alwaysShowConstructor = showConstructor.isSelected
 	}
 
-	override fun createComponent() = mainPanel
-
+	override fun createComponent() = thisPanel
 }

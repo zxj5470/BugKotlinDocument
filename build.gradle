@@ -12,21 +12,32 @@ plugins {
 	id "org.jetbrains.intellij" version '0.3.1'
 }
 
+def useCLion = true
+//def useCLion = false
+def bugKtDoc = []
+
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'kotlin'
 	apply plugin: 'org.jetbrains.intellij'
 	intellij {
-		version '2017.3'
 		type idea_type
 		updateSinceUntilBuild false
-		instrumentCode true
-		plugins 'kotlin'
+		if (useCLion) {
+			localPath local_path
+			bugKtDoc += 'org.intellij.plugins.markdown:181.2668'
+			bugKtDoc += 'org.jetbrains.kotlin.native.clion:181.4445.17'
+		} else {
+			version idea_version
+			bugKtDoc += 'kotlin'
+		}
+		plugins bugKtDoc.toArray()
 	}
 }
 
 patchPluginXml {
-	pluginDescription(file("src/main/resources/META-INF/description.html").text)
+	pluginDescription(file("description.html").text)
+	changeNotes(file("changeNotes.html").text)
 }
 
 group 'com.github.zxj5470'
@@ -37,14 +48,13 @@ repositories {
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+	compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 sourceSets {
 	main.java {
-		srcDirs += ['src/main/java','src/main/kotlin']
+		srcDirs += ['src/main/java', 'src/main/kotlin']
 	}
-
 }
 
 compileKotlin {
