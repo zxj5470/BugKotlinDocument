@@ -1,24 +1,18 @@
 package com.github.zxj5470.bugktdoc
 
-import com.github.zxj5470.bugktdoc.constants.BugKtDocControl.LF
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.CONSTRUCTOR
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.PARAM
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.PROPERTY
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.RECEIVER
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.RETURN
-import com.github.zxj5470.bugktdoc.constants.BugKtDocDecoration.THROWS
+import com.github.zxj5470.bugktdoc.constants.*
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
-import com.intellij.lang.CodeDocumentationAwareCommenter
-import com.intellij.lang.LanguageCommenters
-import com.intellij.lang.documentation.CodeDocumentationProvider
-import com.intellij.lang.documentation.DocumentationProviderEx
+import com.intellij.lang.*
+import com.intellij.lang.documentation.*
 import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
+import com.intellij.notification.*
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.PlatformUtils
 import com.intellij.util.containers.isNullOrEmpty
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.psi.*
@@ -37,8 +31,12 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	override fun parseContext(startPoint: PsiElement): Pair<PsiElement, PsiComment>? {
 		var current = startPoint
 		while (true) {
-			if (current is KDocImpl) {
-				return Pair.create(if (current is PsiField) current.modifierList else current, current)
+			if (PlatformUtils.isCLion()) {
+				if (current is KDocImpl) {
+					return Pair.create(if (current is PsiField) current.modifierList else current, current)
+				} else if (PackageUtil.isPackageInfoFile(current)) {
+					return Pair.create(current, getPackageInfoComment(current))
+				}
 			} else if (PackageUtil.isPackageInfoFile(current)) {
 				return Pair.create(current, getPackageInfoComment(current))
 			}
@@ -46,10 +44,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		}
 	}
 
+	private fun PsiComment.getOwner() = PsiTreeUtil.getParentOfType<KtDeclaration>(this)
+
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String? {
-		if (!pluginActive) return ""
-		val owner = (contextComment as KDocImpl).getOwner()
-		val commenter = LanguageCommenters.INSTANCE.forLanguage(contextComment.getLanguage()) as CodeDocumentationAwareCommenter
+		if (!pluginActive || contextComment == null) return ""
+		println("active")
+		val owner = contextComment.getOwner()
+		println(owner)
+		val commenter = LanguageCommenters.INSTANCE.forLanguage(contextComment.language) as CodeDocumentationAwareCommenter
 		fun StringBuilder.appendDecorate(str: String) = append(CodeDocumentationUtil.createDocCommentLine(str, contextComment.containingFile, commenter))
 		return when (owner) {
 			is KtNamedFunction -> buildString {
@@ -163,9 +165,14 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				}
 			}
 			else -> ""
+		}.apply {
+			Notifications.Bus.notify(Notification("com.github.zxj5470.bugktdoc.notification",
+				BugKtDocBundle.message("bugktdoc.notation.title"),
+				this,
+				NotificationType.INFORMATION))
 		}
 	}
 
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
-		(contextElement as? KDocImpl)?.getOwner()?.docComment
+		if (!PlatformUtils.isCLion()) (contextElement as? KDocImpl)?.getOwner()?.docComment else contextElement
 }
