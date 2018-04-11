@@ -45,12 +45,11 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 	}
 
 	private fun PsiComment.getOwner() = PsiTreeUtil.getParentOfType<KtDeclaration>(this)
+		?: this.parent.takeIf { it is KtFunction || it is KtClass || it is KtSecondaryConstructor }
 
 	override fun generateDocumentationContentStub(contextComment: PsiComment?): String? {
 		if (!pluginActive || contextComment == null) return ""
-		println("active")
 		val owner = contextComment.getOwner()
-		println(owner)
 		val commenter = LanguageCommenters.INSTANCE.forLanguage(contextComment.language) as CodeDocumentationAwareCommenter
 		fun StringBuilder.appendDecorate(str: String) = append(CodeDocumentationUtil.createDocCommentLine(str, contextComment.containingFile, commenter))
 		return when (owner) {
@@ -165,11 +164,6 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 				}
 			}
 			else -> ""
-		}.apply {
-			Notifications.Bus.notify(Notification("com.github.zxj5470.bugktdoc.notification",
-				BugKtDocBundle.message("bugktdoc.notation.title"),
-				this,
-				NotificationType.INFORMATION))
 		}
 	}
 

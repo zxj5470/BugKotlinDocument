@@ -1,7 +1,11 @@
+@file:Suppress("SENSELESS_COMPARISON")
+
 package com.github.zxj5470.bugktdoc.options
 
 import com.github.zxj5470.bugktdoc.BugKtDocBundle
 import com.github.zxj5470.bugktdoc.globalSettings
+import com.intellij.ui.layout.verticalPanel
+import javax.swing.JCheckBox
 
 /**
  * @author zxj5470
@@ -9,16 +13,23 @@ import com.github.zxj5470.bugktdoc.globalSettings
  */
 class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 	init {
+		// what the hell it is in CLion?
+		// mainPanel is null in CLion.
+		if (mainPanel == null) {
+			mainPanel = verticalPanel { }
+			useBugKtDoc = JCheckBox(BugKtDocBundle.message("bugktdoc.options.use"))
+				.apply { mainPanel.add(this) }
+			showUnitTypeDefault = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.unit"))
+				.apply { mainPanel.add(this) }
+			showClassFieldProperty = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.property"))
+				.apply { mainPanel.add(this) }
+			showConstructor = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.constructor"))
+				.apply { mainPanel.add(this) }
+		}
 		useBugKtDoc.addActionListener {
-			if (useBugKtDoc.isSelected) {
-				showUnitTypeDefault.isEnabled = true
-				showClassFieldProperty.isEnabled = true
-				showConstructor.isEnabled = true
-			} else {
-				showUnitTypeDefault.isEnabled = false
-				showClassFieldProperty.isEnabled = false
-				showConstructor.isEnabled = false
-			}
+			showUnitTypeDefault.isEnabled = !showUnitTypeDefault.isEnabled
+			showClassFieldProperty.isEnabled = !showClassFieldProperty.isEnabled
+			showConstructor.isEnabled = !showConstructor.isEnabled
 		}
 		loadSettings()
 	}
