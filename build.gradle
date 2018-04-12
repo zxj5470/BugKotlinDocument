@@ -12,27 +12,40 @@ plugins {
 	id "org.jetbrains.intellij" version '0.3.1'
 }
 
-def useCLion = true
-//def useCLion = false
 def bugKtDoc = []
+def local_path = ""
+
+switch (alternative_ide) {
+	case 'IJ':
+		break
+	case 'CL':
+		local_path = clion_path
+		bugKtDoc += clion_kn
+		break
+	case 'AC':
+		local_path = appcode_path
+		bugKtDoc += appcode_kn
+		break
+}
 
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'kotlin'
 	apply plugin: 'org.jetbrains.intellij'
-	intellij {
-		type idea_type
-		updateSinceUntilBuild false
-		if (useCLion) {
-			localPath local_path
-			bugKtDoc += 'org.intellij.plugins.markdown:181.2668'
-			bugKtDoc += 'org.jetbrains.kotlin.native.clion:181.4445.17'
-		} else {
-			version idea_version
-			bugKtDoc += 'kotlin'
-		}
-		plugins bugKtDoc.toArray()
+}
+
+intellij {
+	type idea_type
+	updateSinceUntilBuild false
+	version idea_version
+	if (local_path != "") {
+		localPath local_path
+		alternativeIdePath local_path
+		bugKtDoc += 'org.intellij.plugins.markdown:181.2668'
+	} else {
+		bugKtDoc += 'kotlin'
 	}
+	plugins bugKtDoc.toArray()
 }
 
 patchPluginXml {

@@ -2,10 +2,8 @@ package com.github.zxj5470.bugktdoc.options
 
 import com.github.zxj5470.bugktdoc.BugKtDocBundle
 import com.github.zxj5470.bugktdoc.globalSettings
-import com.github.zxj5470.bugktdoc.isKotlinNative
 import com.github.zxj5470.bugktdoc.util.*
 import com.intellij.ui.layout.verticalPanel
-import com.intellij.util.PlatformUtils
 import javax.swing.JCheckBox
 import javax.swing.JPanel
 
@@ -37,36 +35,28 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 		}
 
 	init {
-		if (isKotlinNative) {
-			thisPanel
-		}
+		thisPanel
 		addSwitchListener()
-		initListener()
+		observer()
 	}
 
 	private fun addSwitchListener() {
-		useBugKtDoc.addActionListener {
-			useBugKtDoc.isSelected {
+		useBugKtDoc?.addActionListener {
+			observer()
+		}
+	}
+
+	private fun observer() {
+		useBugKtDoc?.apply {
+			if (this.isSelected) {
 				showUnitTypeDefault.isEnabled = true
 				showClassFieldProperty.isEnabled = true
 				showConstructor.isEnabled = true
-			}.orElse {
+			} else {
 				showUnitTypeDefault.isEnabled = false
 				showClassFieldProperty.isEnabled = false
 				showConstructor.isEnabled = false
 			}
-		}
-	}
-
-	private fun initListener() {
-		useBugKtDoc.isSelected {
-			showUnitTypeDefault.isEnabled = true
-			showClassFieldProperty.isEnabled = true
-			showConstructor.isEnabled = true
-		}.orElse {
-			showUnitTypeDefault.isEnabled = false
-			showClassFieldProperty.isEnabled = false
-			showConstructor.isEnabled = false
 		}
 	}
 
@@ -79,7 +69,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 		globalSettings.alwaysShowUnitReturnType = false
 		globalSettings.alwaysShowClassFieldProperty = true
 		globalSettings.alwaysShowConstructor = true
-		initListener()
+		observer()
 	}
 
 	override fun getDisplayName() = BugKtDocBundle.message("bugktdoc.settings.title")
