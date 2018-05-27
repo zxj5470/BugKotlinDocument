@@ -7,7 +7,7 @@ package com.github.zxj5470.bugktdoc.samples
 
 /**
  *
- * @param block Function0<Unit>
+ * @param block () -> Unit
  */
 fun lambda(block: () -> Unit) {
 
@@ -15,7 +15,8 @@ fun lambda(block: () -> Unit) {
 
 /**
  *
- * @param block [@kotlin.ExtensionFunctionType] Function1<String, Unit>
+ * @param block String.() -> Unit
+ * @return Unit
  */
 fun lambda(block: String.() -> Unit) {
 
@@ -23,7 +24,8 @@ fun lambda(block: String.() -> Unit) {
 
 /**
  *
- * @param block [@kotlin.ExtensionFunctionType] Function1<Pair<String, Int>, Unit>
+ * @param block Pair<String, Int>.() -> Unit
+ * @return Unit
  */
 fun lambda2(block: Pair<String, Int>.() -> Unit = {}) {
 
@@ -31,7 +33,7 @@ fun lambda2(block: Pair<String, Int>.() -> Unit = {}) {
 
 /**
  *
- * @param block Function2<String, Int, Unit>
+ * @param block (String, Int) -> Unit
  */
 fun lambda2(block: (String, Int) -> Unit) {
 
