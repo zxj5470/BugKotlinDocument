@@ -1,16 +1,16 @@
 # BugKotlinDocument
-Plugin for **IntelliJ IDEA** / **Android Studio** / **CLion**.
-And now **AppCode** is available!
-
-- Generate document comments for Kotlin file.
-- Just generate it as Java do.
 
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/v/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9781-bugkotlindocument.svg?style=flat-square)](https://plugins.jetbrains.com/plugin/9781-bugkotlindocument)
 
+Plugin for **IntelliJ IDEA** / **Android Studio** / **CLion**, and **AppCode** is available now!
+
+- Generate document comments for Kotlin file.
+- Just generate it as Java do.
+
 # Usage 
 
-**Just press Enter key like in Java File !!!**
+**Just press Enter key after `/**`, just like in Java File !!!**
 
 ![gif](images/pic01.gif) 
 
@@ -18,7 +18,7 @@ And now **AppCode** is available!
 ![png](images/pic02.png) 
 
 ## AppCode and CLion support!
- ![png](images/pic04.png) 
+![png](images/pic04.png) 
 
 ## Settings
 
@@ -53,4 +53,4 @@ A DevCpp-like cross-platform Kotlin IDE features in lightweight.
 - [ice1000/julia-intellij](https://github.com/ice1000/julia-intellij)
 Julia Plugin for IntelliJ IDEA
 - [zxj5470/ktlext](https://github.com/zxj5470/ktlext)
-A useless library for Kotlin extensions. 
+A **useless** library for Kotlin extensions. 
