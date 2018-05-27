@@ -53,7 +53,7 @@ patchPluginXml {
 	changeNotes(file("changeNotes.html").text)
 }
 
-group 'com.github.zxj5470'
+group groupId
 version plugin_version
 
 repositories {

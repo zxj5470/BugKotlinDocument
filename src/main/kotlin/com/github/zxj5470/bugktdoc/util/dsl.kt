@@ -12,8 +12,3 @@ operator fun Boolean.invoke(block: () -> Unit): Boolean {
 	if (this) block()
 	return this
 }
-
-fun Boolean.orElse(block: () -> Unit): Boolean {
-	if (!this) block()
-	return this
-}

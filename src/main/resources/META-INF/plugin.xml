@@ -1,7 +1,6 @@
 <idea-plugin>
 	<id>cn.wjdghd.unique.plugin.id</id>
 	<name>BugKotlinDocument</name>
-	<version>0.2.0</version>
 	<vendor email="zxj5470@foxmail.com" url="https://github.com/zxj5470/BugKotlinDocument">zxj5470</vendor>
 	<depends optional="true">org.jetbrains.kotlin</depends>
 	<depends optional="true">org.jetbrains.kotlin.native.clion</depends>

@@ -3,16 +3,16 @@ package com.github.zxj5470.bugktdoc
 import com.github.zxj5470.bugktdoc.constants.*
 import com.intellij.codeInsight.editorActions.CodeDocumentationUtil
 import com.intellij.ide.util.PackageUtil
-import com.intellij.lang.*
-import com.intellij.lang.documentation.*
+import com.intellij.lang.CodeDocumentationAwareCommenter
+import com.intellij.lang.LanguageCommenters
+import com.intellij.lang.documentation.CodeDocumentationProvider
+import com.intellij.lang.documentation.DocumentationProviderEx
 import com.intellij.lang.java.JavaDocumentationProvider.getPackageInfoComment
-import com.intellij.notification.*
 import com.intellij.openapi.util.Pair
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.PlatformUtils
 import com.intellij.util.containers.isNullOrEmpty
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocImpl
 import org.jetbrains.kotlin.psi.*
@@ -47,56 +47,58 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 		if (!pluginActive || contextComment == null) return ""
 		val owner = contextComment.getOwner()
 		val commenter = LanguageCommenters.INSTANCE.forLanguage(contextComment.language) as CodeDocumentationAwareCommenter
+
 		fun StringBuilder.appendDecorate(str: String) = append(CodeDocumentationUtil.createDocCommentLine(str, contextComment.containingFile, commenter))
-		return when (owner) {
-			is KtNamedFunction -> buildString {
-				// @receiver
-				owner.receiverTypeReference?.let {
-					appendDecorate(RECEIVER)
-					append(it.text)
-					append(LF)
-				}
 
-				// @param
-				owner.valueParameters.forEach {
-					val param = it.nameIdentifier?.text
-					val type = it.itsType
-					appendDecorate(PARAM)
-					// add a space before `param` and after is no used
-					append("$param $type")
-					append(LF)
-				}
+		fun docKtNamedFunction(owner: KtNamedFunction) = buildString {
+			// @receiver
+			owner.receiverTypeReference?.let {
+				appendDecorate(RECEIVER)
+				append(it.text)
+				append(LF)
+			}
 
-				// @return
-				if (owner.hasDeclaredReturnType()) {
-					appendDecorate(RETURN)
-					append(owner.typeReference?.typeElement?.text)
-					append(LF)
-				} else {
-					owner.itsType.let {
-						if (isAlwaysShowUnitReturnType || it != "Unit") {
-							appendDecorate(RETURN)
-							append(it)
-							append(LF)
-						}
-					}
-				}
+			// @param
+			owner.valueParameters.forEach {
+				val param = it.nameIdentifier?.text
+				val type = it.itsType
+				appendDecorate(PARAM)
+				// add a space before `param` and after is no used
+				append("$param $type")
+				append(LF)
+			}
 
-				// @throws
-				PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
-					.firstOrNull { it.calleeExpression?.text == "Throws" }
-					?.valueArguments?.forEach {
-					(it.getArgumentExpression() as? KtClassLiteralExpression)?.let {
-						PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
-							appendDecorate(THROWS)
-							append(it)
-							append(LF)
-						}
+			// @return
+			if (owner.hasDeclaredReturnType()) {
+				appendDecorate(RETURN)
+				append(owner.typeReference?.typeElement?.text)
+				append(LF)
+			} else {
+				owner.itsType.let {
+					if (isAlwaysShowUnitReturnType || it != "Unit") {
+						appendDecorate(RETURN)
+						append(it)
+						append(LF)
 					}
 				}
 			}
 
-			is KtClass -> buildString {
+			// @throws
+			PsiTreeUtil.findChildrenOfType(owner, KtAnnotationEntry::class.java)
+				.firstOrNull { it.calleeExpression?.text == "Throws" }
+				?.valueArguments?.forEach {
+				(it.getArgumentExpression() as? KtClassLiteralExpression)?.let {
+					PsiTreeUtil.findChildOfType(it, KtNameReferenceExpression::class.java)?.text?.let {
+						appendDecorate(THROWS)
+						append(it)
+						append(LF)
+					}
+				}
+			}
+		}
+
+		fun docKtClass(owner: KtClass): String {
+			return buildString {
 				owner.typeParameters.forEach {
 					appendDecorate(PARAM)
 					append(it.text)
@@ -140,7 +142,10 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					}
 				}
 			}
-			is KtConstructor<*> -> buildString {
+		}
+
+		fun docKtConstructor(owner: KtConstructor<*>): String {
+			return buildString {
 
 				// @param
 				owner.getValueParameters().forEach {
@@ -159,9 +164,16 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 					append(LF)
 				}
 			}
+		}
+
+		return when (owner) {
+			is KtNamedFunction -> docKtNamedFunction(owner)
+			is KtClass -> docKtClass(owner)
+			is KtConstructor<*> -> docKtConstructor(owner)
 			else -> ""
 		}
 	}
+
 
 	override fun findExistingDocComment(contextElement: PsiComment?): PsiComment? =
 		if (!isKotlinNative) (contextElement as? KDocImpl)?.getOwner()?.docComment else contextElement
