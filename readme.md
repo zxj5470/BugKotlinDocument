@@ -47,7 +47,8 @@ more samples:
 [constructors.kt](src/test/kotlin/com/github/zxj5470/bugktdoc/samples/constructors.kt)
 
 # Projects use this plugin.
-
+- [zxj5470/BugKotlinDocument](https://github.com/zxj5470/BugKotlinDocument)
+**The project itself!!!**
 - [ice1000/dev-kt](https://github.com/ice1000/dev-kt)
 A DevCpp-like cross-platform Kotlin IDE features in lightweight.
 - [ice1000/julia-intellij](https://github.com/ice1000/julia-intellij)
