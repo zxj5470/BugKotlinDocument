@@ -55,3 +55,5 @@ A DevCpp-like cross-platform Kotlin IDE features in lightweight.
 Julia Plugin for IntelliJ IDEA
 - [zxj5470/ktlext](https://github.com/zxj5470/ktlext)
 A **useless** library for Kotlin extensions. 
+- [whitewoodcity/social-vertex](https://github.com/whitewoodcity/social-vertex)
+A library for instant messaging framework with using [Vert.x](https://vert.io). 
