@@ -8,6 +8,19 @@ Plugin for **IntelliJ IDEA** / **Android Studio** / **CLion**, and **AppCode** i
 - Generate document comments for Kotlin file.
 - Just generate it as Java do.
 
+<table>
+  <tr>
+    <th>CI</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>AppVeyor (on Windows)</td>
+    <td><a href="https://ci.appveyor.com/project/zxj5470/bugkotlindocument"><img src="https://ci.appveyor.com/api/projects/status/github/zxj5470/bugkotlindocument?branch=master&svg=true" alt="AppVeyor Build status"></a></td>
+  </tr>
+</table>
+
+To download a nightly build, visit https://ci.appveyor.com/project/zxj5470/bugkotlindocument/build/artifacts/
+
 # Usage 
 
 **Just press Enter key after `/**`, just like in Java File !!!**
