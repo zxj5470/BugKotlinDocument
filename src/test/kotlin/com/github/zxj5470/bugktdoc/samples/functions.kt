@@ -18,11 +18,3 @@ fun twoParam(i: Int, j: Int) {
 fun twoParamWithReturn(i: Int, j: Int): String {
 	return "${i + j}"
 }
-
-/**
- *
- * @param i Int
- * @param j Int
- * @return String
- */
-fun twoParamWithExpressionReturn(i: Int, j: Int) = "${i + j}"

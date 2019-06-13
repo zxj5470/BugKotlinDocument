@@ -17,4 +17,5 @@ class DocumentationTest : LightCodeInsightFixtureTestCase() {
 
 	@Test fun testConstructors() = byName("constructors")
 	@Test fun testMain1() = byName("main1")
+	@Test fun testFunction() = byName("function")
 }

@@ -1,0 +1,7 @@
+/**
+ *
+ * @param i Int
+ * @param j Int
+ * @return String
+ */
+fun twoParamWithExpressionReturn(i: Int, j: Int) = "${i + j}"
