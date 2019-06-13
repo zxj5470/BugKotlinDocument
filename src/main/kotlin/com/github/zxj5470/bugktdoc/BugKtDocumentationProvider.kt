@@ -61,9 +61,7 @@ class BugKtDocumentationProvider : DocumentationProviderEx(), CodeDocumentationP
 			// @param
 			owner.valueParameters.forEach {
 				val param = it.nameIdentifier?.text ?: ""
-				val type =
-					if (it.isVarArg) it.itsType
-					else it.text.substringAfter(param).substringBefore('=').trim(':', ' ')
+				val type = it.itsType
 				appendDecorate(PARAM)
 				// add a space before `param` and after is no used
 				append("$param $type")

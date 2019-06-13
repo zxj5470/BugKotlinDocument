@@ -2,8 +2,6 @@ package com.github.zxj5470.bugktdoc.options
 
 import com.github.zxj5470.bugktdoc.BugKtDocBundle
 import com.github.zxj5470.bugktdoc.globalSettings
-import com.github.zxj5470.bugktdoc.util.*
-import com.intellij.ui.layout.verticalPanel
 import javax.swing.JCheckBox
 import javax.swing.JPanel
 
@@ -17,7 +15,7 @@ class BugKtDocConfigureFormImpl : BugKtDocConfigureForm() {
 			// what the hell it is in CLion?
 			// mainPanel is null in CLion.
 			if (mainPanel == null) {
-				mainPanel = verticalPanel { }
+				mainPanel = JPanel()
 				useBugKtDoc = JCheckBox(BugKtDocBundle.message("bugktdoc.options.use"))
 					.apply { mainPanel.add(this) }
 				showUnitTypeDefault = JCheckBox(BugKtDocBundle.message("bugktdoc.options.default.unit"))
