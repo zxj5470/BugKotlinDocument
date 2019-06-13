@@ -25,9 +25,12 @@ To download a nightly build, visit https://ci.appveyor.com/project/zxj5470/bugko
 
 **Just press Enter key after `/**`, just like in Java File !!!**
 
-![gif](images/pic01.gif) 
+If it doesn't work, make sure you are not in indexing and enable smart keys for `documentation comment stub`.
+![pic](https://user-images.githubusercontent.com/20026798/59451393-f7059c00-8e3d-11e9-9581-76b13f0c6dcb.png)
 
 # Screenshots
+![gif](images/pic01.gif) 
+
 ![png](images/pic02.png) 
 
 ## AppCode and CLion support!
