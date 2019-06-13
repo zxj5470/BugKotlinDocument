@@ -12,7 +12,7 @@ class DocumentationTest : LightCodeInsightFixtureTestCase() {
 		myFixture.configureByFiles("$sampleName.kt")
 		myFixture.editor.caretModel.moveToOffset(3)
 		myFixture.testAction(SmartEnterAction())
-		myFixture.checkResultByFile("$sampleName.kt.txt")
+		myFixture.checkResultByFile("$sampleName.txt")
 	}
 
 	@Test fun testConstructors() = byName("constructors")
