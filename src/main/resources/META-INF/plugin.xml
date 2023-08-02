@@ -21,7 +21,8 @@
 		<typedHandler implementation="com.github.zxj5470.bugktdoc.BugKtDocEditorTypedHandler"/>
 		<applicationConfigurable groupId="editor"
 										 id="com.github.zxj5470.bugktdoc.applicationConfigurable"
-										 instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"/>
+										 instance="com.github.zxj5470.bugktdoc.options.BugKtDocConfigureFormImpl"
+										 displayName="BugKotlinDocument"/>
 		<applicationService
 			serviceInterface="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettings"
 			serviceImplementation="com.github.zxj5470.bugktdoc.options.BugKtDocGlobalSettingsImpl"/>
